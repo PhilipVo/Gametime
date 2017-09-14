@@ -7,63 +7,60 @@ import notification from './notification.service';
 
 class SessionService {
   constructor() {
-    this.isFacebookUser;
-    this.username;
+    this.id;
   }
 
   facebookLogin(data) {
     return http.post('/users/facebook-login', JSON.stringify(data))
-      .then(catchToken => {
-        if (catchToken.isNew) throw { isNew: true };
-        AsyncStorage.setItem('catchToken', catchToken);
-      }).then(() => AsyncStorage.getItem('catchToken'))
-      .then(catchToken => this.setSession(catchToken))
+      .then(token => {
+        if (token.isNew) throw { isNew: true };
+        AsyncStorage.setItem('token', token);
+      }).then(() => AsyncStorage.getItem('token'))
+      .then(token => this.setSession(token))
       .catch(error => error.isNew ? Promise.resolve(true) : Promise.reject(error));
   }
 
   facebookRegister(data) {
     return http.post('/users/facebook-register', JSON.stringify(data))
-      .then(catchToken => AsyncStorage.setItem('catchToken', catchToken))
-      .then(() => AsyncStorage.getItem('catchToken'))
-      .then(catchToken => {
-        this.setSession(catchToken);
+      .then(token => AsyncStorage.setItem('token', token))
+      .then(() => AsyncStorage.getItem('token'))
+      .then(token => {
+        this.setSession(token);
         this.isFacebookUser = true;
       }).catch(error => Promise.reject(error));
   }
 
   login(data) {
     return http.post('/users/login', JSON.stringify(data))
-      .then(catchToken => AsyncStorage.setItem('catchToken', catchToken))
-      .then(() => AsyncStorage.getItem('catchToken'))
-      .then(catchToken => this.setSession(catchToken))
+      .then(token => AsyncStorage.setItem('token', token))
+      .then(() => AsyncStorage.getItem('token'))
+      .then(token => this.setSession(token))
       .catch(error => Promise.reject(error));
   }
 
   logout() {
     return http.put('/api/users/clear-device-token')
-      .then(() => AsyncStorage.removeItem('catchToken'))
+      .then(() => AsyncStorage.removeItem('token'))
       .then(() => {
         if (this.isFacebookUser) LoginManager.logOut();
-        this.isFacebookUser = undefined;
-        this.username = undefined;
+        this.id = undefined;
       }).catch(error => Promise.reject(error));
   }
 
   register(data) {
     return http.post('/users/register', JSON.stringify(data))
-      .then(catchToken => AsyncStorage.setItem('catchToken', catchToken))
-      .then(() => AsyncStorage.getItem('catchToken'))
-      .then(catchToken => this.setSession(catchToken))
+      .then(token => AsyncStorage.setItem('token', token))
+      .then(() => AsyncStorage.getItem('token'))
+      .then(token => this.setSession(token))
       .catch(error => Promise.reject(error));
   }
 
-  setSession(catchToken) {
+  setSession(token) {
     return new Promise((resolve, reject) => {
       try {
         // Set user:
-        payload = JSON.parse(base64.decode(catchToken.split('.')[1].replace('-', '+').replace('_', '/')));
-        this.isFacebookUser = payload.isFacebookUser;
-        this.username = payload.username;
+        payload = JSON.parse(base64.decode(token.split('.')[1].replace('-', '+').replace('_', '/')));
+        this.id = payload.id;
 
         // Update deviceToken:
         notification.updateDeviceToken();

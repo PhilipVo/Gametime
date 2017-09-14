@@ -1,52 +1,37 @@
 import React, { Component } from 'react';
-import { AsyncStorage, ImageBackground, StatusBar, Text, View } from 'react-native';
+import { AsyncStorage, ImageBackground, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 
 import AppNavigator from '../navigators/app.navigator';
-import Login from './login';
+import TabNavigator from '../navigators/tab.navigator';
 
 class App extends Component {
   componentDidMount() {
-    console.log(this.props)
-    console.log('mode', this.state);
+    AsyncStorage.getItem('token')
+      .then(token => {
+        if (token) {
+          session.setSession(token)
+            .then(() => this.setState({ mode: 1 }))
+            .catch(() => { });
+        } else {
+          console.log('setting to 2')
+          this.props.setMode(2)
+        };
+      }).catch(() => { });
   }
 
   render() {
-    let Navigator;
-
-    switch (this.props.mode) {
-      case 0:
-        return (
-          <View style={{ flex: 1 }}>
-            <StatusBar barStyle='light-content' />
-            <ImageBackground
-              source={require('../../assets/images/background1.png')}
-              style={{ flex: 1 }}>
-              <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                <Text style={{
-                  backgroundColor: 'transparent',
-                  color: 'white',
-                  fontSize: 40,
-                  textAlign: 'center'
-                }}>
-                  Gametime
-                </Text>
-                <Text style={{
-                  backgroundColor: 'transparent',
-                  color: 'white',
-                  fontSize: 20,
-                  textAlign: 'center'
-                }}>
-                  Never miss your favorite team play
-                </Text>
-              </View>
-              <View style={{ flex: 3 }} />
-            </ImageBackground>
-          </View>
-        );
-      case 1:
-        return (<AppNavigator />);
-    }
+    if (this.props.mode === 0) return (
+      <ImageBackground
+        source={require('../../assets/images/background0.png')}
+        style={{ flex: 1 }}>
+        <StatusBar barStyle='light-content' />
+      </ImageBackground>
+    );
+    else if (this.props.mode === 1) return <TabNavigator />
+    else if (this.props.mode === 2) return <AppNavigator />
+    else if (this.props.mode === 3) return <FTUENavigator />
+    else return null;
   }
 }
 

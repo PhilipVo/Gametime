@@ -1,6 +1,97 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import {
+	Dimensions,
+	Image,
+	ImageBackground,
+	Keyboard,
+	KeyboardAvoidingView,
+	StatusBar,
+	StyleSheet,
+	Text,
+	TextInput,
+	TouchableHighlight,
+	TouchableWithoutFeedback,
+	View
+} from 'react-native';
 import { connect } from 'react-redux';
+
+const styles = StyleSheet.create({
+	already: {
+		backgroundColor: 'transparent',
+		color: 'white',
+		fontSize: 10,
+		fontWeight: 'bold'
+	},
+	background: {
+		height: Dimensions.get('window').height,
+		position: 'absolute',
+		width: Dimensions.get('window').width
+	},
+	buttonText: {
+		color: 'white',
+		fontSize: 16,
+		textAlign: 'center'
+	},
+	create: {
+		backgroundColor: '#31da5b',
+		borderRadius: 3,
+		height: 35,
+		justifyContent: 'center',
+		marginTop: 15,
+		padding: 5,
+	},
+	facebook: {
+		backgroundColor: '#3b5998',
+		borderRadius: 3,
+		height: 35,
+		justifyContent: 'center',
+		padding: 5,
+	},
+	gametime: {
+		backgroundColor: 'transparent',
+		color: 'white',
+		fontSize: 40,
+		textAlign: 'center'
+	},
+	input: {
+		backgroundColor: 'white',
+		borderColor: '#31da5b',
+		borderRadius: 3,
+		borderWidth: 0.5,
+		fontSize: 16,
+		height: 35,
+		marginBottom: 10,
+		padding: 5
+	},
+	never: {
+		backgroundColor: 'transparent',
+		color: 'white',
+		fontSize: 20,
+		textAlign: 'center'
+	},
+	or: {
+		backgroundColor: 'transparent',
+		color: 'white',
+		fontWeight: 'bold'
+	},
+	orDivider: {
+		backgroundColor: 'white',
+		height: 0.5,
+		width: 100
+	},
+	orView: {
+		alignItems: 'center',
+		flexDirection: 'row',
+		justifyContent: 'center',
+		marginVertical: 15
+	},
+	sign: {
+		backgroundColor: 'transparent',
+		color: '#31da5b',
+		fontSize: 10,
+		fontWeight: 'bold'
+	},
+});
 
 class Login extends Component {
 	componentDidMount() {
@@ -10,11 +101,79 @@ class Login extends Component {
 
 	render() {
 		return (
-			<View style={{ flex: 1 }}>
-				<Text>
-					L O G I N
-        </Text>
-			</View>
+			<TouchableWithoutFeedback
+				onPress={Keyboard.dismiss}>
+				<View style={{ flex: 1 }}>
+					<StatusBar barStyle='light-content' />
+					<Image
+						source={require('../../assets/images/background0.png')}
+						style={styles.background} />
+					<KeyboardAvoidingView
+						behavior={'padding'}
+						style={{ flex: 1 }}>
+
+						{/* Gametime */}
+						<View style={{ flex: 1, justifyContent: 'flex-end' }}>
+							<Text style={styles.gametime}>Gametime</Text>
+							<Text style={styles.never}>Never miss your favorite team play</Text>
+						</View>
+
+						{/* Icon */}
+						<View style={{ alignItems: 'center', flex: 2, justifyContent: 'center' }}>
+							<Image
+								source={require('../../assets/images/gametime.png')}
+								style={{ height: 90, width: 90 }} />
+						</View>
+
+						{/* Form */}
+						<View style={{ flex: 2 }}>
+							<View style={{ paddingHorizontal: 40 }}>
+
+								{/* Email */}
+								<TextInput
+									autoCapitalize='none'
+									autoCorrect={false}
+									keyboardType='email-address'
+									placeholder='Email'
+									style={styles.input} />
+
+								{/* Password */}
+								<TextInput
+									autoCapitalize='none'
+									autoCorrect={false}
+									placeholder='Password'
+									secureTextEntry={true}
+									style={styles.input} />
+
+								{/* Create Account */}
+								<TouchableHighlight style={styles.create}>
+									<Text style={styles.buttonText}>Create Account</Text>
+								</TouchableHighlight>
+
+								<View style={{ alignItems: 'center', marginTop: 10 }}>
+									<View style={{ flexDirection: 'row' }}>
+										<Text style={styles.already}>Aleady have an account? </Text>
+										<Text style={styles.sign}>Sign In</Text>
+										<Text style={styles.already}> | </Text>
+										<Text style={styles.sign}>Forgot Password?</Text>
+									</View>
+								</View>
+
+								{/* Or */}
+								<View style={styles.orView}>
+									<View style={styles.orDivider} />
+									<Text style={styles.or}>   or   </Text>
+									<View style={styles.orDivider} />
+								</View>
+
+								<TouchableHighlight style={styles.facebook}>
+									<Text style={styles.buttonText}>Continue with Facebook</Text>
+								</TouchableHighlight>
+							</View>
+						</View>
+					</KeyboardAvoidingView>
+				</View>
+			</TouchableWithoutFeedback>
 		);
 	}
 }
