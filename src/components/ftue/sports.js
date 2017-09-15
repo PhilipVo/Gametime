@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-end',
 		flex: 1,
 		height: 40,
-		justifyContent: 'center',
+		justifyContent: 'flex-end',
 		marginVertical: 10
 	},
 	select: {
@@ -65,89 +65,92 @@ class Sports extends Component {
 
 				{/* Body */}
 				<View style={{ flex: 10 }}>
-					{/* Baseball */}
-					<TouchableHighlight
-						onPress={() => this.props.ftueTeams('baseball')}
-						style={{ flex: 1, marginVertical: 10 }}
-						underlayColor='transparent'>
-						<View style={styles.select}>
-							<View style={{ flex: 1 }} />
-							<View style={{ flex: 2 }} >
-								<Text style={styles.sport}>Baseball</Text>
+					{/* Sports */}
+					<View style={{ flex: 9 }}>
+						{/* Baseball */}
+						<TouchableHighlight
+							onPress={() => this.props.ftueTeams('baseball')}
+							style={{ height: 40, marginVertical: 10 }}
+							underlayColor='transparent'>
+							<View style={styles.select}>
+								<View style={{ flex: 1 }} />
+								<View style={{ flex: 2 }} >
+									<Text style={styles.sport}>Baseball</Text>
+								</View>
+								<View style={{ flex: 1 }} />
 							</View>
-							<View style={{ flex: 1 }} />
-						</View>
-					</TouchableHighlight>
+						</TouchableHighlight>
 
-					{/* Basketball */}
-					<TouchableHighlight
-						onPress={() => this.props.ftueTeams('basketball')}
-						style={{ flex: 1, marginVertical: 10 }}
-						underlayColor='transparent'>
-						<View style={styles.select}>
-							<View style={{ flex: 1 }} />
-							<View style={{ flex: 2 }} >
-								<Text style={styles.sport}>Basketball</Text>
+						{/* Basketball */}
+						<TouchableHighlight
+							onPress={() => this.props.ftueTeams('basketball')}
+							style={{ height: 40, marginVertical: 10 }}
+							underlayColor='transparent'>
+							<View style={styles.select}>
+								<View style={{ flex: 1 }} />
+								<View style={{ flex: 2 }} >
+									<Text style={styles.sport}>Basketball</Text>
+								</View>
+								<View style={{ flex: 1 }} />
 							</View>
-							<View style={{ flex: 1 }} />
-						</View>
-					</TouchableHighlight>
+						</TouchableHighlight>
 
-					{/* Football */}
-					<TouchableHighlight
-						onPress={() => this.props.ftueTeams('football')}
-						style={{ flex: 1, marginVertical: 10 }}
-						underlayColor='transparent'>
-						<View style={styles.select}>
-							<View style={{ flex: 1 }} />
-							<View style={{ flex: 2 }} >
-								<Text style={styles.sport}>Football</Text>
+						{/* Football */}
+						<TouchableHighlight
+							onPress={() => this.props.ftueTeams('football')}
+							style={{ height: 40, marginVertical: 10 }}
+							underlayColor='transparent'>
+							<View style={styles.select}>
+								<View style={{ flex: 1 }} />
+								<View style={{ flex: 2 }} >
+									<Text style={styles.sport}>Football</Text>
+								</View>
+								<View style={{ flex: 1 }} />
 							</View>
-							<View style={{ flex: 1 }} />
-						</View>
-					</TouchableHighlight>
+						</TouchableHighlight>
 
-					{/* Hockey */}
-					<TouchableHighlight
-						onPress={() => this.props.ftueTeams('hockey')}
-						style={{ flex: 1, marginVertical: 10 }}
-						underlayColor='transparent'>
-						<View style={styles.select}>
-							<View style={{ flex: 1 }} />
-							<View style={{ flex: 2 }} >
-								<Text style={styles.sport}>Hockey</Text>
+						{/* Hockey */}
+						<TouchableHighlight
+							onPress={() => this.props.ftueTeams('hockey')}
+							style={{ height: 40, marginVertical: 10 }}
+							underlayColor='transparent'>
+							<View style={styles.select}>
+								<View style={{ flex: 1 }} />
+								<View style={{ flex: 2 }} >
+									<Text style={styles.sport}>Hockey</Text>
+								</View>
+								<View style={{ flex: 1 }} />
 							</View>
-							<View style={{ flex: 1 }} />
-						</View>
-					</TouchableHighlight>
+						</TouchableHighlight>
 
-					{/* MMA */}
-					<TouchableHighlight
-						onPress={() => this.props.ftueTeams('mma')}
-						style={{ flex: 1, marginVertical: 10 }}
-						underlayColor='transparent'>
-						<View style={styles.select}>
-							<View style={{ flex: 1 }} />
-							<View style={{ flex: 2 }} >
-								<Text style={styles.sport}>MMA</Text>
+						{/* MMA */}
+						<TouchableHighlight
+							onPress={() => this.props.ftueTeams('mma')}
+							style={{ height: 40, marginVertical: 10 }}
+							underlayColor='transparent'>
+							<View style={styles.select}>
+								<View style={{ flex: 1 }} />
+								<View style={{ flex: 2 }} >
+									<Text style={styles.sport}>MMA</Text>
+								</View>
+								<View style={{ flex: 1 }} />
 							</View>
-							<View style={{ flex: 1 }} />
-						</View>
-					</TouchableHighlight>
+						</TouchableHighlight>
 
-					{/* Soccer */}
-					<TouchableHighlight
-						onPress={() => this.props.ftueTeams('soccer')}
-						style={{ flex: 1, marginVertical: 10 }}
-						underlayColor='transparent'>
-						<View style={styles.select}>
-							<View style={{ flex: 1 }} />
-							<View style={{ flex: 2 }} >
-								<Text style={styles.sport}>Soccer</Text>
+						{/* Soccer */}
+						<TouchableHighlight
+							onPress={() => this.props.ftueTeams('soccer')}
+							style={{ height: 40, marginVertical: 10 }}
+							underlayColor='transparent'>
+							<View style={styles.select}>
+								<View style={{ flex: 1 }} />
+								<View style={{ flex: 2 }} >
+									<Text style={styles.sport}>Soccer</Text>
+								</View>
+								<View style={{ flex: 1 }} />
 							</View>
-							<View style={{ flex: 1 }} />
-						</View>
-					</TouchableHighlight>
+						</TouchableHighlight>
+					</View>
 
 					{/* Next */}
 					<View style={styles.next}>

@@ -32,30 +32,27 @@ class App extends Component {
   }
 
   render() {
+    let Navigator = null;
     if (this.props.mode === 1) {
       const TabsNavigator = require('../navigators/tabs.navigator').TabsNavigator;
       return <TabsNavigator />
-    } else {
-      let Navigator = null;
-
-      if (this.props.mode === 2) {
-        const AppNavigator = require('../navigators/app.navigator').AppNavigator;
-        Navigator = <AppNavigator />
-      } else if (this.props.mode === 3) {
-        const FTUENavigator = require('../navigators/ftue.navigator').FTUENavigator;
-        Navigator = <FTUENavigator />
-      }
-
-      return (
-        <View style={{ flex: 1 }}>
-          <Image
-            source={require('../../assets/images/background0.png')}
-            style={styles.background} />
-          <StatusBar barStyle='light-content' />
-          {Navigator}
-        </View>
-      );
+    } else if (this.props.mode === 2) {
+      const AppNavigator = require('../navigators/app.navigator').AppNavigator;
+      Navigator = <AppNavigator />
+    } else if (this.props.mode === 3) {
+      const FTUENavigator = require('../navigators/ftue.navigator').FTUENavigator;
+      Navigator = <FTUENavigator />
     }
+
+    return (
+      <View style={{ flex: 1 }}>
+        <Image
+          source={require('../../assets/images/background0.png')}
+          style={styles.background} />
+        <StatusBar barStyle='light-content' />
+        {Navigator}
+      </View>
+    );
   }
 }
 

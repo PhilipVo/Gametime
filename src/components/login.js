@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 		textAlign: 'center'
 	},
 	input: {
-		backgroundColor: 'rgba(255,255,255,0.2)',
+		backgroundColor: 'rgba(150,150,150,0.6)',
 		borderColor: '#31da5b',
 		borderRadius: 3,
 		borderWidth: 0.5,
@@ -125,7 +125,7 @@ class Login extends Component {
 									autoCorrect={false}
 									keyboardType='email-address'
 									placeholder='email'
-									placeholderTextColor='rgb(60,60,60)'
+									placeholderTextColor='rgb(200,200,200)'
 									style={styles.input} />
 
 								{/* Password */}
@@ -133,7 +133,7 @@ class Login extends Component {
 									autoCapitalize='none'
 									autoCorrect={false}
 									placeholder='password'
-									placeholderTextColor='rgb(60,60,60)'
+									placeholderTextColor='rgb(200,200,200)'
 									secureTextEntry={true}
 									style={styles.input} />
 

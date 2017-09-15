@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		textAlign: 'center'
 	},
-	next: {
+	save: {
 		alignItems: 'flex-end',
 		flex: 1,
 		height: 40,
@@ -63,24 +63,28 @@ class Teams extends Component {
 					<Text style={styles.lets}>Let's select who you follow</Text>
 				</View>
 
+
 				{/* Body */}
 				<View style={{ flex: 10 }}>
-					{/* Baseball */}
-					<TouchableHighlight
-						onPress={() => this.props.goToTeams('baseball')}
-						style={{ flex: 1, marginVertical: 10 }}
-						underlayColor='transparent'>
-						<View style={styles.select}>
-							<View style={{ flex: 1 }} />
-							<View style={{ flex: 2 }} >
-								<Text style={styles.sport}>Baseball</Text>
+					{/* Sports */}
+					<View style={{ flex: 9 }}>
+						{/* Baseball */}
+						<TouchableHighlight
+							onPress={() => this.props.ftueTeams('baseball')}
+							style={{ height: 40, marginVertical: 10 }}
+							underlayColor='transparent'>
+							<View style={styles.select}>
+								<View style={{ flex: 1 }} />
+								<View style={{ flex: 2 }} >
+									<Text style={styles.sport}>Baseball</Text>
+								</View>
+								<View style={{ flex: 1 }} />
 							</View>
-							<View style={{ flex: 1 }} />
-						</View>
-					</TouchableHighlight>
+						</TouchableHighlight>
+					</View>
 
-					{/* Next */}
-					<View style={styles.next}>
+					{/* Save */}
+					<View style={styles.save}>
 						<TouchableHighlight
 							onPress={this.props.goBack}
 							style={{ backgroundColor: '#31da5b', borderRadius: 5, padding: 10 }}
