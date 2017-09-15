@@ -1,26 +1,26 @@
 import { NavigationActions } from 'react-navigation';
 
-import { Navigator } from '../navigators/tab.navigator';
+import { Navigator } from '../navigators/tabs.navigator';
 const initialNavState = Navigator.router.getStateForAction(
 	NavigationActions.init()
 );
 
-const tabNavigator = (state = initialNavState, action) => {
+const tabsNavigator = (state = initialNavState, action) => {
 	let nextState;
 	switch (action.type) {
-		case 'Add':
+		case 'TABS_ADD':
 			nextState = Navigator.router.getStateForAction(
 				NavigationActions.navigate({ routeName: 'Add' }),
 				state
 			);
 			break;
-		case 'Feed':
+		case 'TABS_FEED':
 			nextState = Navigator.router.getStateForAction(
 				NavigationActions.navigate({ routeName: 'Feed' }),
 				state
 			);
 			break;
-		case 'Manage':
+		case 'TABS_MANAGE':
 			nextState = Navigator.router.getStateForAction(
 				NavigationActions.navigate({ routeName: 'Manage' }),
 				state
@@ -34,4 +34,4 @@ const tabNavigator = (state = initialNavState, action) => {
 	return nextState || state;
 }
 
-export default tabNavigator;
+export default tabsNavigator;

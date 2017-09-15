@@ -4,11 +4,12 @@ import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 
 import Login from '../components/login';
 
-export const Navigator = StackNavigator(
+const Navigator = StackNavigator(
 	{
 		Login: { screen: Login },
 	},
 	{
+		cardStyle: { backgroundColor: 'transparent' },
 		headerMode: 'none',
 		initialRouteName: 'Login'
 	}
@@ -22,4 +23,7 @@ const mapStateToProps = state => ({
 	appNavigator: state.appNavigator,
 });
 
-export default connect(mapStateToProps)(AppNavigator);
+module.exports = {
+	Navigator: Navigator,
+	AppNavigator: connect(mapStateToProps)(AppNavigator)
+};

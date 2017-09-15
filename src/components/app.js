@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
-import { AsyncStorage, ImageBackground, StatusBar } from 'react-native';
+import {
+  AsyncStorage,
+  Dimensions,
+  Image,
+  StatusBar,
+  StyleSheet,
+  View
+} from 'react-native';
 import { connect } from 'react-redux';
 
-import AppNavigator from '../navigators/app.navigator';
-import TabNavigator from '../navigators/tab.navigator';
+const styles = StyleSheet.create({
+  background: {
+    height: Dimensions.get('window').height,
+    position: 'absolute',
+    width: Dimensions.get('window').width
+  }
+});
 
 class App extends Component {
   componentDidMount() {
@@ -14,29 +26,41 @@ class App extends Component {
             .then(() => this.setState({ mode: 1 }))
             .catch(() => { });
         } else {
-          console.log('setting to 2')
-          this.props.setMode(2)
+          this.props.setMode(2);
         };
       }).catch(() => { });
   }
 
   render() {
-    if (this.props.mode === 0) return (
-      <ImageBackground
-        source={require('../../assets/images/background0.png')}
-        style={{ flex: 1 }}>
-        <StatusBar barStyle='light-content' />
-      </ImageBackground>
-    );
-    else if (this.props.mode === 1) return <TabNavigator />
-    else if (this.props.mode === 2) return <AppNavigator />
-    else if (this.props.mode === 3) return <FTUENavigator />
-    else return null;
+    if (this.props.mode === 1) {
+      const TabsNavigator = require('../navigators/tabs.navigator').TabsNavigator;
+      return <TabsNavigator />
+    } else {
+      let Navigator = null;
+
+      if (this.props.mode === 2) {
+        const AppNavigator = require('../navigators/app.navigator').AppNavigator;
+        Navigator = <AppNavigator />
+      } else if (this.props.mode === 3) {
+        const FTUENavigator = require('../navigators/ftue.navigator').FTUENavigator;
+        Navigator = <FTUENavigator />
+      }
+
+      return (
+        <View style={{ flex: 1 }}>
+          <Image
+            source={require('../../assets/images/background0.png')}
+            style={styles.background} />
+          <StatusBar barStyle='light-content' />
+          {Navigator}
+        </View>
+      );
+    }
   }
 }
 
 const mapStateToProps = state => ({
-  mode: state.session.mode
+  mode: state.mode
 });
 
 const mapDispatchToProps = dispatch => ({

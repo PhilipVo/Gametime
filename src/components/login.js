@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import {
-	Dimensions,
 	Image,
-	ImageBackground,
 	Keyboard,
 	KeyboardAvoidingView,
-	StatusBar,
 	StyleSheet,
 	Text,
 	TextInput,
@@ -21,11 +18,6 @@ const styles = StyleSheet.create({
 		color: 'white',
 		fontSize: 10,
 		fontWeight: 'bold'
-	},
-	background: {
-		height: Dimensions.get('window').height,
-		position: 'absolute',
-		width: Dimensions.get('window').width
 	},
 	buttonText: {
 		color: 'white',
@@ -54,14 +46,16 @@ const styles = StyleSheet.create({
 		textAlign: 'center'
 	},
 	input: {
-		backgroundColor: 'white',
+		backgroundColor: 'rgba(255,255,255,0.2)',
 		borderColor: '#31da5b',
 		borderRadius: 3,
 		borderWidth: 0.5,
+		color: 'white',
 		fontSize: 16,
 		height: 35,
 		marginBottom: 10,
-		padding: 5
+		padding: 5,
+		textAlign: 'center'
 	},
 	never: {
 		backgroundColor: 'transparent',
@@ -104,10 +98,6 @@ class Login extends Component {
 			<TouchableWithoutFeedback
 				onPress={Keyboard.dismiss}>
 				<View style={{ flex: 1 }}>
-					<StatusBar barStyle='light-content' />
-					<Image
-						source={require('../../assets/images/background0.png')}
-						style={styles.background} />
 					<KeyboardAvoidingView
 						behavior={'padding'}
 						style={{ flex: 1 }}>
@@ -134,19 +124,24 @@ class Login extends Component {
 									autoCapitalize='none'
 									autoCorrect={false}
 									keyboardType='email-address'
-									placeholder='Email'
+									placeholder='email'
+									placeholderTextColor='rgb(60,60,60)'
 									style={styles.input} />
 
 								{/* Password */}
 								<TextInput
 									autoCapitalize='none'
 									autoCorrect={false}
-									placeholder='Password'
+									placeholder='password'
+									placeholderTextColor='rgb(60,60,60)'
 									secureTextEntry={true}
 									style={styles.input} />
 
 								{/* Create Account */}
-								<TouchableHighlight style={styles.create}>
+								<TouchableHighlight
+									onPress={() => this.props.setMode(3)}
+									style={styles.create}
+									underlayColor='#31da5b'>
 									<Text style={styles.buttonText}>Create Account</Text>
 								</TouchableHighlight>
 
@@ -166,7 +161,10 @@ class Login extends Component {
 									<View style={styles.orDivider} />
 								</View>
 
-								<TouchableHighlight style={styles.facebook}>
+								<TouchableHighlight
+									onPress={() => { }}
+									style={styles.facebook}
+									underlayColor='#3b5998'>
 									<Text style={styles.buttonText}>Continue with Facebook</Text>
 								</TouchableHighlight>
 							</View>
