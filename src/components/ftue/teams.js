@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+	FlatList,
 	Image,
 	StyleSheet,
 	Text,
@@ -8,7 +9,15 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
+import http from '../../services/http.service';
+
 const styles = StyleSheet.create({
+	back: {
+		alignItems: 'flex-start',
+		flex: 1,
+		height: 40,
+		marginVertical: 10
+	},
 	gametime: {
 		backgroundColor: 'transparent',
 		color: 'white',
@@ -20,13 +29,6 @@ const styles = StyleSheet.create({
 		color: 'white',
 		fontSize: 20,
 		textAlign: 'center'
-	},
-	save: {
-		alignItems: 'flex-end',
-		flex: 1,
-		height: 40,
-		justifyContent: 'center',
-		marginVertical: 10
 	},
 	select: {
 		alignItems: 'center',
@@ -45,7 +47,17 @@ const styles = StyleSheet.create({
 });
 
 class Teams extends Component {
-	componentDidMount() {
+	componentWillMount() {
+		console.log(this.props)
+	}
+
+	addTeam = team => {
+		http.post('/api/teams/add', JSON.stringify({
+			sport: this.props.sport,
+			team: team
+		})).then(() => {
+
+		}).catch(() => { });
 	}
 
 	render() {
@@ -60,36 +72,39 @@ class Teams extends Component {
 							style={{ height: 40, width: 40 }} />
 						<Text style={styles.gametime}> Gametime</Text>
 					</View>
-					<Text style={styles.lets}>Let's select who you follow</Text>
+					<Text style={styles.lets}>Let's select your {this.props.sport} teams</Text>
 				</View>
 
 
 				{/* Body */}
 				<View style={{ flex: 10 }}>
-					{/* Sports */}
 					<View style={{ flex: 9 }}>
-						{/* Baseball */}
-						<TouchableHighlight
-							onPress={() => this.props.ftueTeams('baseball')}
-							style={{ height: 40, marginVertical: 10 }}
-							underlayColor='transparent'>
-							<View style={styles.select}>
-								<View style={{ flex: 1 }} />
-								<View style={{ flex: 2 }} >
-									<Text style={styles.sport}>Baseball</Text>
-								</View>
-								<View style={{ flex: 1 }} />
-							</View>
-						</TouchableHighlight>
+						<FlatList
+							data={this.props.teams}
+							keyExtractor={(item, index) => `${index}`}
+							renderItem={({ item }) => (
+								<TouchableHighlight
+									onPress={() => this.props.ftueTeams('baseball')}
+									style={{ height: 40, marginVertical: 10 }}
+									underlayColor='transparent'>
+									<View style={styles.select}>
+										<View style={{ flex: 1 }} />
+										<View style={{ flex: 2 }} >
+											<Text style={styles.sport}>Baseball</Text>
+										</View>
+										<View style={{ flex: 1 }} />
+									</View>
+								</TouchableHighlight>
+							)} />
 					</View>
 
-					{/* Save */}
-					<View style={styles.save}>
+					<View style={styles.back}>
+						{/* Back */}
 						<TouchableHighlight
 							onPress={this.props.goBack}
 							style={{ backgroundColor: '#31da5b', borderRadius: 5, padding: 10 }}
 							underlayColor='#31da5b'>
-							<Text style={styles.sport}>Save</Text>
+							<Text style={styles.sport}>Back</Text>
 						</TouchableHighlight>
 					</View>
 
@@ -99,8 +114,9 @@ class Teams extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
-	sports: state.sports
+const mapStateToProps = (state, props) => ({
+	sport: props.navigation.state.params.sport,
+	teams: state.sports[props.navigation.state.params.sport]
 });
 
 const mapDispatchToProps = dispatch => ({

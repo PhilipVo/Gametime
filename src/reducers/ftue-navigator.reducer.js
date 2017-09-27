@@ -14,12 +14,6 @@ const ftueNavigator = (state = initialNavState, action) => {
 				state
 			);
 			break;
-		case 'FTUE_SPORTS':
-			nextState = Navigator.router.getStateForAction(
-				NavigationActions.navigate({ routeName: 'Sports' }),
-				state
-			);
-			break;
 		case 'FTUE_TEAMS':
 			nextState = Navigator.router.getStateForAction(
 				NavigationActions.navigate({ routeName: 'Teams', params: action.params }),

@@ -88,11 +88,6 @@ const styles = StyleSheet.create({
 });
 
 class Login extends Component {
-	componentDidMount() {
-		console.log(this.props)
-		console.log('mode', this.state);
-	}
-
 	render() {
 		return (
 			<TouchableWithoutFeedback

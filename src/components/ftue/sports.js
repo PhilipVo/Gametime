@@ -7,8 +7,16 @@ import {
 	View
 } from 'react-native';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/dist/SimpleLineIcons';
 
 const styles = StyleSheet.create({
+	finish: {
+		alignItems: 'flex-end',
+		flex: 1,
+		height: 40,
+		justifyContent: 'flex-end',
+		marginVertical: 10
+	},
 	gametime: {
 		backgroundColor: 'transparent',
 		color: 'white',
@@ -20,13 +28,6 @@ const styles = StyleSheet.create({
 		color: 'white',
 		fontSize: 20,
 		textAlign: 'center'
-	},
-	next: {
-		alignItems: 'flex-end',
-		flex: 1,
-		height: 40,
-		justifyContent: 'flex-end',
-		marginVertical: 10
 	},
 	select: {
 		alignItems: 'center',
@@ -45,9 +46,6 @@ const styles = StyleSheet.create({
 });
 
 class Sports extends Component {
-	componentDidMount() {
-	}
-
 	render() {
 		return (
 			<View style={{ flex: 1, padding: 20 }}>
@@ -73,7 +71,12 @@ class Sports extends Component {
 							style={{ height: 40, marginVertical: 10 }}
 							underlayColor='transparent'>
 							<View style={styles.select}>
-								<View style={{ flex: 1 }} />
+								<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+									{
+										this.props.sports.baseball.length > 0 &&
+										<Icon color='white' name='check' size={20} />
+									}
+								</View>
 								<View style={{ flex: 2 }} >
 									<Text style={styles.sport}>Baseball</Text>
 								</View>
@@ -87,7 +90,12 @@ class Sports extends Component {
 							style={{ height: 40, marginVertical: 10 }}
 							underlayColor='transparent'>
 							<View style={styles.select}>
-								<View style={{ flex: 1 }} />
+								<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+									{
+										this.props.sports.basketball.length > 0 &&
+										<Icon color='white' name='check' size={20} />
+									}
+								</View>
 								<View style={{ flex: 2 }} >
 									<Text style={styles.sport}>Basketball</Text>
 								</View>
@@ -101,7 +109,12 @@ class Sports extends Component {
 							style={{ height: 40, marginVertical: 10 }}
 							underlayColor='transparent'>
 							<View style={styles.select}>
-								<View style={{ flex: 1 }} />
+								<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+									{
+										this.props.sports.football.length > 0 &&
+										<Icon color='white' name='check' size={20} />
+									}
+								</View>
 								<View style={{ flex: 2 }} >
 									<Text style={styles.sport}>Football</Text>
 								</View>
@@ -115,7 +128,12 @@ class Sports extends Component {
 							style={{ height: 40, marginVertical: 10 }}
 							underlayColor='transparent'>
 							<View style={styles.select}>
-								<View style={{ flex: 1 }} />
+								<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+									{
+										this.props.sports.hockey.length > 0 &&
+										<Icon color='white' name='check' size={20} />
+									}
+								</View>
 								<View style={{ flex: 2 }} >
 									<Text style={styles.sport}>Hockey</Text>
 								</View>
@@ -129,7 +147,12 @@ class Sports extends Component {
 							style={{ height: 40, marginVertical: 10 }}
 							underlayColor='transparent'>
 							<View style={styles.select}>
-								<View style={{ flex: 1 }} />
+								<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+									{
+										this.props.sports.mma.length > 0 &&
+										<Icon color='white' name='check' size={20} />
+									}
+								</View>
 								<View style={{ flex: 2 }} >
 									<Text style={styles.sport}>MMA</Text>
 								</View>
@@ -143,7 +166,12 @@ class Sports extends Component {
 							style={{ height: 40, marginVertical: 10 }}
 							underlayColor='transparent'>
 							<View style={styles.select}>
-								<View style={{ flex: 1 }} />
+								<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+									{
+										this.props.sports.soccer.length > 0 &&
+										<Icon color='white' name='check' size={20} />
+									}
+								</View>
 								<View style={{ flex: 2 }} >
 									<Text style={styles.sport}>Soccer</Text>
 								</View>
@@ -152,12 +180,17 @@ class Sports extends Component {
 						</TouchableHighlight>
 					</View>
 
-					{/* Next */}
-					<View style={styles.next}>
-						<View style={{ backgroundColor: '#31da5b', borderRadius: 5, padding: 10 }}>
-							<Text style={styles.sport}>Finish</Text>
+					{/* Finish */
+						this.props.mode === 3 &&
+						<View style={styles.finish}>
+							<TouchableHighlight
+								onPress={() => this.props.setMode(1)}
+								style={{ backgroundColor: '#31da5b', borderRadius: 5, padding: 10 }}
+								underlayColor='#31da5b'>
+								<Text style={styles.sport}>Finish</Text>
+							</TouchableHighlight>
 						</View>
-					</View>
+					}
 
 				</View>
 			</View >
@@ -166,11 +199,13 @@ class Sports extends Component {
 }
 
 const mapStateToProps = state => ({
+	mode: state.mode,
 	sports: state.sports
 });
 
 const mapDispatchToProps = dispatch => ({
-	ftueTeams: sport => { dispatch({ type: 'FTUE_TEAMS', params: { sport: sport } }); }
+	ftueTeams: sport => { dispatch({ type: 'FTUE_TEAMS', params: { sport: sport } }); },
+	setMode: mode => { dispatch({ type: 'SET_MODE', mode: mode }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sports);
