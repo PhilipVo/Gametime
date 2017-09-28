@@ -4,6 +4,7 @@ const sports = (state = {
 	football: [],
 	hockey: [],
 	mma: [],
+	nascar: [],
 	soccer: []
 }, action) => {
 	switch (action.type) {

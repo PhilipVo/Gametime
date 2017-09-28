@@ -17,9 +17,7 @@ const Navigator = TabNavigator(
 		initialRouteName: 'Feed',
 		// navigationOptions: { tabBarVisible: false }
 		order: ['Feed', 'Add', 'Manage'],
-		tabBarOptions: {
-			showLabel: false
-		}
+		tabBarOptions: { showLabel: false }
 	}
 );
 

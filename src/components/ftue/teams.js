@@ -107,8 +107,8 @@ class Teams extends Component {
 							<Text style={styles.sport}>Back</Text>
 						</TouchableHighlight>
 					</View>
-
 				</View>
+
 			</View >
 		);
 	}

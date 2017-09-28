@@ -42,8 +42,9 @@ const images = {
 	baseball: require('../../../../assets/images/baseball.png'),
 	basketball: require('../../../../assets/images/basketball.png'),
 	football: require('../../../../assets/images/football.png'),
-	// hockey: require('../../../../assets/images/hockey.png'),
+	hockey: require('../../../../assets/images/hockey.png'),
 	mma: require('../../../../assets/images/mma.png'),
+	nascar: require('../../../../assets/images/nascar.png'),
 	soccer: require('../../../../assets/images/soccer.png')
 };
 

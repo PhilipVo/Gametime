@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+	Dimensions,
 	Image,
 	StyleSheet,
 	Text,
@@ -7,27 +8,45 @@ import {
 	View
 } from 'react-native';
 import { connect } from 'react-redux';
+import FAIcon from 'react-native-vector-icons/dist/FontAwesome';
 import Icon from 'react-native-vector-icons/dist/SimpleLineIcons';
 
+import session from '../../../services/session.service';
+
 const styles = StyleSheet.create({
+	account: {
+		backgroundColor: 'transparent',
+		color: 'white',
+		fontSize: 20,
+		textAlign: 'center'
+	},
+	background: {
+		height: Dimensions.get('window').height,
+		position: 'absolute',
+		width: Dimensions.get('window').width
+	},
 	gametime: {
 		backgroundColor: 'transparent',
 		color: 'white',
 		fontSize: 40,
 		textAlign: 'center'
 	},
-	lets: {
+	logout: {
+		alignSelf: 'center',
 		backgroundColor: 'transparent',
+		borderColor: 'white',
+		borderRadius: 5,
+		borderWidth: 0.5,
 		color: 'white',
 		fontSize: 20,
+		padding: 5,
 		textAlign: 'center'
 	},
-	save: {
-		alignItems: 'flex-end',
-		flex: 1,
-		height: 40,
-		justifyContent: 'center',
-		marginVertical: 10
+	row: {
+		alignItems: 'center',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		marginBottom: 10
 	},
 	select: {
 		alignItems: 'center',
@@ -38,10 +57,11 @@ const styles = StyleSheet.create({
 		height: 40,
 		justifyContent: 'space-between'
 	},
-	sport: {
+	title: {
+		backgroundColor: 'transparent',
 		color: 'white',
-		fontSize: 18,
-		textAlign: 'center'
+		fontSize: 16,
+		fontWeight: 'bold'
 	}
 });
 
@@ -50,12 +70,21 @@ class Manage extends Component {
 		tabBarIcon: ({ tintColor }) => <Icon color={tintColor} name='settings' size={30} />
 	};
 
-	componentDidMount() {
-	}
-
 	render() {
+		let sportsCount = 0;
+		let teamsCount = 0;
+
+		Object.values(this.props.sports).forEach(sport => {
+			if (sport.length > 0) sportsCount += 1;
+			teamsCount += sport.length;
+		});
+
 		return (
 			<View style={{ flex: 1, padding: 20 }}>
+				<Image
+					source={require('../../../../assets/images/background2.png')}
+					style={styles.background} />
+
 
 				{/* Header */}
 				<View style={{ flex: 2 }}>
@@ -65,40 +94,41 @@ class Manage extends Component {
 							style={{ height: 40, width: 40 }} />
 						<Text style={styles.gametime}> Gametime</Text>
 					</View>
-					<Text style={styles.lets}>Let's select who you follow</Text>
+					<Text style={styles.account}>Account information</Text>
 				</View>
 
 
 				{/* Body */}
 				<View style={{ flex: 10 }}>
-					{/* Sports */}
-					<View style={{ flex: 9 }}>
-						{/* Baseball */}
-						<TouchableHighlight
-							onPress={() => this.props.ftueTeams('baseball')}
-							style={{ height: 40, marginVertical: 10 }}
-							underlayColor='transparent'>
-							<View style={styles.select}>
-								<View style={{ flex: 1 }} />
-								<View style={{ flex: 2 }} >
-									<Text style={styles.sport}>Baseball</Text>
-								</View>
-								<View style={{ flex: 1 }} />
-							</View>
-						</TouchableHighlight>
+					<View style={styles.row}>
+						<Text style={styles.title}>Email</Text>
+						<Text style={styles.title}>sample@gmail.com</Text>
+					</View>
+					<View style={styles.row}>
+						<Text style={styles.title}>Sports following</Text>
+						<Text style={styles.title}>{sportsCount}</Text>
+					</View>
+					<View style={styles.row}>
+						<Text style={styles.title}>Teams following</Text>
+						<Text style={styles.title}>{teamsCount}</Text>
+					</View>
+					<View style={styles.row}>
+						<Text style={styles.title}>Mute notifications</Text>
+						<FAIcon color='white' name='square-o' size={30} style={{ backgroundColor: 'transparent' }} />
 					</View>
 
-					{/* Save */}
-					<View style={styles.save}>
-						<TouchableHighlight
-							onPress={this.props.goBack}
-							style={{ backgroundColor: '#31da5b', borderRadius: 5, padding: 10 }}
-							underlayColor='#31da5b'>
-							<Text style={styles.sport}>Save</Text>
-						</TouchableHighlight>
-					</View>
+					{/* Logout */}
+					<Text
+						onPress={() => {
+							session.logout();
+							this.props.setMode(2);
+						}}
+						style={styles.logout}>
+						Logout
+							</Text>
 
 				</View>
+
 			</View >
 		);
 	}
@@ -109,6 +139,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+	setMode: mode => { dispatch({ type: 'SET_MODE', mode: mode }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Manage);

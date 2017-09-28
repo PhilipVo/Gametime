@@ -35,7 +35,7 @@ class App extends Component {
     let Navigator = null;
     if (this.props.mode === 1) {
       const TabsNavigator = require('../navigators/tabs.navigator').TabsNavigator;
-      return <TabsNavigator />
+      Navigator = <TabsNavigator />
     } else if (this.props.mode === 2) {
       const AppNavigator = require('../navigators/app.navigator').AppNavigator;
       Navigator = <AppNavigator />
@@ -46,9 +46,12 @@ class App extends Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <Image
-          source={require('../../assets/images/background0.png')}
-          style={styles.background} />
+        {
+          this.props.mode !== 1 &&
+          <Image
+            source={require('../../assets/images/background0.png')}
+            style={styles.background} />
+        }
         <StatusBar barStyle='light-content' />
         {Navigator}
       </View>

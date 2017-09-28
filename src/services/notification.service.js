@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import PushNotification from 'react-native-push-notification';
+// import PushNotification from 'react-native-push-notification';
 import { Subject } from 'rxjs/Subject';
 
 import http from './http.service';

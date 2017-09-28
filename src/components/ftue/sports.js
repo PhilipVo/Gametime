@@ -58,7 +58,7 @@ class Sports extends Component {
 							style={{ height: 40, width: 40 }} />
 						<Text style={styles.gametime}> Gametime</Text>
 					</View>
-					<Text style={styles.lets}>Let's select the sports you follow</Text>
+					<Text style={styles.lets}>Select the sports you follow</Text>
 				</View>
 
 				{/* Body */}
@@ -160,6 +160,25 @@ class Sports extends Component {
 							</View>
 						</TouchableHighlight>
 
+						{/* Nascar */}
+						<TouchableHighlight
+							onPress={() => this.props.ftueTeams('nascar')}
+							style={{ height: 40, marginVertical: 10 }}
+							underlayColor='transparent'>
+							<View style={styles.select}>
+								<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+									{
+										this.props.sports.mma.length > 0 &&
+										<Icon color='white' name='check' size={20} />
+									}
+								</View>
+								<View style={{ flex: 2 }} >
+									<Text style={styles.sport}>NASCAR</Text>
+								</View>
+								<View style={{ flex: 1 }} />
+							</View>
+						</TouchableHighlight>
+
 						{/* Soccer */}
 						<TouchableHighlight
 							onPress={() => this.props.ftueTeams('soccer')}
@@ -184,7 +203,7 @@ class Sports extends Component {
 						this.props.mode === 3 &&
 						<View style={styles.finish}>
 							<TouchableHighlight
-								onPress={() => this.props.setMode(1)}
+								onPress={this.props.ftueComplete}
 								style={{ backgroundColor: '#31da5b', borderRadius: 5, padding: 10 }}
 								underlayColor='#31da5b'>
 								<Text style={styles.sport}>Finish</Text>
@@ -204,6 +223,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+	ftueComplete: sport => { dispatch({ type: 'FTUE_COMPLETE' }); },
 	ftueTeams: sport => { dispatch({ type: 'FTUE_TEAMS', params: { sport: sport } }); },
 	setMode: mode => { dispatch({ type: 'SET_MODE', mode: mode }); }
 });
