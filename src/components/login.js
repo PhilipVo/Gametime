@@ -12,6 +12,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
+import session from '../services/session.service';
+
 const styles = StyleSheet.create({
 	already: {
 		backgroundColor: 'transparent',
@@ -88,6 +90,93 @@ const styles = StyleSheet.create({
 });
 
 class Login extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			disabled: false,
+			error: null,
+			mode: 'register'
+		};
+
+		this.user = {
+			email: '',
+			password: ''
+		};
+	}
+
+
+	facebookLogin = () => {
+		if (!this.state.disabled) {
+			this.setState({
+				disbaled: true,
+				error: null,
+			});
+
+			LoginManager.logInWithReadPermissions(['public_profile']).then(result => {
+				if (result.isCancelled) this.setState({ disabled: false });
+				else {
+					const infoRequest = new GraphRequest('/me', null, (error, result) => {
+						if (error) throw error.toString();
+						else return session.facebookLogin({ id: result.id })
+							.then(() => this.props.screenProps.login())
+							.catch(error => {
+								this.setState({
+									disabled: false,
+									error: typeof error === 'string' ? error : 'Oops, something went wrong.',
+								});
+							});
+					});
+
+					new GraphRequestManager().addRequest(infoRequest).start();
+				}
+			}).catch(error => {
+				this.setState({
+					disabled: false,
+					error: typeof error === 'string' ? error : 'Oops, something went wrong.',
+				});
+			});
+		}
+	}
+
+	login = () => {
+		if (!this.state.disabled) {
+			this.setState({
+				disabled: true,
+				error: null
+			});
+
+			if (this.state.mode === 'login') {
+				session.login(this.user)
+					.then(() => this.props.setMode(1))
+					.catch(error => {
+						this.setState({
+							disabled: false,
+							error: typeof error === 'string' ? error : 'Oops, something went wrong.',
+						});
+					});
+			} else {
+				console.log(this.user)
+				session.register(this.user)
+					.then(() => this.props.setMode(3))
+					.catch(error => {
+						console.log(error)
+						this.setState({
+							disabled: false,
+							error: typeof error === 'string' ? error : 'Oops, something went wrong.',
+						});
+					});
+			}
+		}
+	}
+
+	toggle = () => {
+		this.state.mode === 'login' ?
+			this.setState({ mode: 'register' }) :
+			this.setState({ mode: 'login' });
+	}
+
+
 	render() {
 		return (
 			<TouchableWithoutFeedback
@@ -119,6 +208,7 @@ class Login extends Component {
 									autoCapitalize='none'
 									autoCorrect={false}
 									keyboardType='email-address'
+									onChangeText={email => this.user.email = email}
 									placeholder='email'
 									placeholderTextColor='rgb(200,200,200)'
 									style={styles.input} />
@@ -127,23 +217,39 @@ class Login extends Component {
 								<TextInput
 									autoCapitalize='none'
 									autoCorrect={false}
+									onChangeText={password => this.user.password = password}
 									placeholder='password'
 									placeholderTextColor='rgb(200,200,200)'
 									secureTextEntry={true}
 									style={styles.input} />
 
+								{
+									this.state.error &&
+									<Text style={{ color: 'red', textAlign: 'center' }}>{this.state.error}</Text>
+								}
+
 								{/* Create Account */}
 								<TouchableHighlight
-									onPress={() => this.props.setMode(3)}
+									onPress={this.login}
 									style={styles.create}
 									underlayColor='#31da5b'>
-									<Text style={styles.buttonText}>Create Account</Text>
+									<Text style={styles.buttonText}>
+										{this.state.mode === 'register' ? 'Create Account' : 'Login'}
+									</Text>
 								</TouchableHighlight>
 
 								<View style={{ alignItems: 'center', marginTop: 10 }}>
 									<View style={{ flexDirection: 'row' }}>
-										<Text style={styles.already}>Aleady have an account? </Text>
-										<Text style={styles.sign}>Sign In</Text>
+										<Text style={styles.already}>
+											{
+												this.state.mode === 'register' ?
+													'Aleady have an account? ' :
+													'Don\'t have an account? '
+											}
+										</Text>
+										<Text onPress={this.toggle} style={styles.sign}>
+											{this.state.mode === 'register' ? 'Sign In' : 'Register'}
+										</Text>
 										<Text style={styles.already}> | </Text>
 										<Text style={styles.sign}>Forgot Password?</Text>
 									</View>

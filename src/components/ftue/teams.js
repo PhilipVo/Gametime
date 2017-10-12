@@ -47,8 +47,24 @@ const styles = StyleSheet.create({
 });
 
 class Teams extends Component {
-	componentWillMount() {
-		console.log(this.props)
+	constructor(props) {
+		super(props);
+		this.state = { data: [] };
+	}
+
+	componentDidMount() {
+		console.log('sport', this.props.sport);
+		const followed = http.get(`/api/teams/get-followed-teams-for-sport/${this.props.sport}`)
+			.catch(error => { throw error });
+
+		const unfollowed = http.get(`/api/teams/get-unfollowed-teams-for-sport/${this.props.sport}`)
+			.catch(error => { throw error });
+
+		Promise.all([followed, unfollowed])
+			.then(data => {
+				console.log(data)
+				this.setState({ data: data[0].concat(data[1]) });
+			}).catch(error => console.log(error))
 	}
 
 	addTeam = team => {
@@ -80,21 +96,10 @@ class Teams extends Component {
 				<View style={{ flex: 10 }}>
 					<View style={{ flex: 9 }}>
 						<FlatList
-							data={this.props.teams}
+							data={this.state.data}
 							keyExtractor={(item, index) => `${index}`}
 							renderItem={({ item }) => (
-								<TouchableHighlight
-									onPress={() => this.props.ftueTeams('baseball')}
-									style={{ height: 40, marginVertical: 10 }}
-									underlayColor='transparent'>
-									<View style={styles.select}>
-										<View style={{ flex: 1 }} />
-										<View style={{ flex: 2 }} >
-											<Text style={styles.sport}>Baseball</Text>
-										</View>
-										<View style={{ flex: 1 }} />
-									</View>
-								</TouchableHighlight>
+								<Text>{item.name}</Text>
 							)} />
 					</View>
 

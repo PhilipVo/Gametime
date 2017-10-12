@@ -3,24 +3,16 @@ import { FlatList, Image, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/SimpleLineIcons';
 
+import http from '../../../services/http.service';
+
 class Feed extends Component {
 	static navigationOptions = {
 		tabBarIcon: ({ tintColor }) => <Icon color={tintColor} name='clock' size={30} />
 	};
 
-	componentWillMount = () => {
-		this.setState({
-			data: [
-				{ sport: 'football' },
-				{ sport: 'basketball' },
-				{ sport: 'mma' },
-				{ sport: 'soccer' },
-				{ sport: 'baseball' },
-				{ sport: 'mma' },
-				{ sport: 'soccer' },
-				{ sport: 'baseball' },
-			]
-		});
+	constructor(props) {
+		super(props);
+		this.state = { data: [] };
 	}
 
 	render() {

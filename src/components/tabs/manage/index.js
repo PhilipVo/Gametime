@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
 	Dimensions,
+	FlatList,
 	Image,
 	StyleSheet,
 	Text,
@@ -70,6 +71,21 @@ class Manage extends Component {
 		tabBarIcon: ({ tintColor }) => <Icon color={tintColor} name='settings' size={30} />
 	};
 
+	componentWillMount = () => {
+		this.setState({
+			data: [
+				{ sport: 'football' },
+				{ sport: 'basketball' },
+				{ sport: 'mma' },
+				{ sport: 'soccer' },
+				{ sport: 'baseball' },
+				{ sport: 'mma' },
+				{ sport: 'soccer' },
+				{ sport: 'baseball' },
+			]
+		});
+	}
+
 	render() {
 		let sportsCount = 0;
 		let teamsCount = 0;
@@ -94,30 +110,24 @@ class Manage extends Component {
 							style={{ height: 40, width: 40 }} />
 						<Text style={styles.gametime}> Gametime</Text>
 					</View>
-					<Text style={styles.account}>Account information</Text>
+					<Text style={styles.account}>Manage teams</Text>
 				</View>
 
-
 				{/* Body */}
-				<View style={{ flex: 10 }}>
-					<View style={styles.row}>
-						<Text style={styles.title}>Email</Text>
-						<Text style={styles.title}>sample@gmail.com</Text>
-					</View>
-					<View style={styles.row}>
-						<Text style={styles.title}>Sports following</Text>
-						<Text style={styles.title}>{sportsCount}</Text>
-					</View>
-					<View style={styles.row}>
-						<Text style={styles.title}>Teams following</Text>
-						<Text style={styles.title}>{teamsCount}</Text>
-					</View>
-					<View style={styles.row}>
-						<Text style={styles.title}>Mute notifications</Text>
-						<FAIcon color='white' name='square-o' size={30} style={{ backgroundColor: 'transparent' }} />
-					</View>
+				<View style={{ flex: 9 }}>
+					<FlatList
+						data={this.state.data}
+						keyExtractor={(item, index) => `${index}`}
+						renderItem={({ item }) => (
+							<Text>
+								placeholder
+						</Text>
+						)}
+						style={{ flex: 9 }} />
+				</View>
 
-					{/* Logout */}
+				{/* Logout */}
+				<View style={{ flex: 1 }}>
 					<Text
 						onPress={() => {
 							session.logout();
@@ -125,8 +135,7 @@ class Manage extends Component {
 						}}
 						style={styles.logout}>
 						Logout
-							</Text>
-
+						</Text>
 				</View>
 
 			</View >
