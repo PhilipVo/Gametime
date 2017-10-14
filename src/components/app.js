@@ -21,29 +21,28 @@ const styles = StyleSheet.create({
 
 class App extends Component {
 	componentDidMount() {
-		this.props.setMode(3);
-		// AsyncStorage.getItem('token')
-		// 	.then(token => {
-		// 		if (token) {
-		// 			session.setSession(token)
-		// 				.then(() => this.props.setMode(1))
-		// 				.catch(() => { });
-		// 		} else this.props.setMode(2);
-		// 	}).catch(() => { });
+		AsyncStorage.getItem('token')
+			.then(token => {
+				if (token) {
+					session.setSession(token)
+						.then(() => this.props.setMode(1))
+						.catch(() => { });
+				} else this.props.setMode(2);
+			}).catch(() => { });
 	}
 
 	render() {
 		let Navigator = null;
-		// if (this.props.mode === 1) {
-		// 	const TabsNavigator = require('../navigators/tabs.navigator').TabsNavigator;
-		// 	Navigator = <TabsNavigator />
-		// } else if (this.props.mode === 2) {
-		// 	const AppNavigator = require('../navigators/app.navigator').AppNavigator;
-		// 	Navigator = <AppNavigator />
-		// } else if (this.props.mode === 3) {
-		const FTUENavigator = require('../navigators/ftue.navigator').FTUENavigator;
-		Navigator = <FTUENavigator />
-		// }
+		if (this.props.mode === 1) {
+			const TabsNavigator = require('../navigators/tabs.navigator').TabsNavigator;
+			Navigator = <TabsNavigator />
+		} else if (this.props.mode === 2) {
+			const AppNavigator = require('../navigators/app.navigator').AppNavigator;
+			Navigator = <AppNavigator />
+		} else if (this.props.mode === 3) {
+			const FTUENavigator = require('../navigators/ftue.navigator').FTUENavigator;
+			Navigator = <FTUENavigator />
+		}
 
 		return (
 			<View style={{ flex: 1 }}>

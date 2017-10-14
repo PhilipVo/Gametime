@@ -8,6 +8,7 @@ import {
 	View
 } from 'react-native';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 import http from '../../services/http.service';
 
@@ -53,7 +54,6 @@ class Teams extends Component {
 	}
 
 	componentDidMount() {
-		console.log('sport', this.props.sport);
 		const followed = http.get(`/api/teams/get-followed-teams-for-sport/${this.props.sport}`)
 			.catch(error => { throw error });
 
@@ -67,13 +67,25 @@ class Teams extends Component {
 			}).catch(error => console.log(error))
 	}
 
-	addTeam = team => {
-		http.post('/api/teams/add', JSON.stringify({
+	toggleTeam = (item, index) => {
+		if (item.name) http.post('/api/teams', JSON.stringify({
 			sport: this.props.sport,
-			team: team
+			team: item.name
 		})).then(() => {
-
-		}).catch(() => { });
+			const data = this.state.data.slice();
+			data[index].teamName = item.name;
+			delete data[index].name;
+			this.setState({ data: data });
+		}).catch(error => console.log(error));
+		else if (item.teamName) http.delete('/api/teams', JSON.stringify({
+			sport: this.props.sport,
+			team: item.teamName
+		})).then(() => {
+			const data = this.state.data.slice();
+			data[index].name = item.teamName;
+			delete data[index].teamName;
+			this.setState({ data: data });
+		}).catch(error => console.log(error));
 	}
 
 	render() {
@@ -88,7 +100,13 @@ class Teams extends Component {
 							style={{ height: 40, width: 40 }} />
 						<Text style={styles.gametime}> Gametime</Text>
 					</View>
-					<Text style={styles.lets}>Let's select your {this.props.sport} teams</Text>
+					<Text style={styles.lets}>
+						{
+							this.state.data.length === 1 ?
+								`Select below to follow ${this.props.sport}` :
+								`Let's select your ${this.props.sport} teams`
+						}
+					</Text>
 				</View>
 
 
@@ -98,8 +116,21 @@ class Teams extends Component {
 						<FlatList
 							data={this.state.data}
 							keyExtractor={(item, index) => `${index}`}
-							renderItem={({ item }) => (
-								<Text>{item.name}</Text>
+							renderItem={({ item, index }) => (
+								<TouchableHighlight
+									onPress={() => this.toggleTeam(item, index)}
+									style={{ height: 40, marginVertical: 7 }}
+									underlayColor='transparent'>
+									<View style={styles.select}>
+										<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+											<Icon color='white' name={item.teamName ? 'check-square-o' : 'square-o'} size={20} />
+										</View>
+										<View style={{ flex: 3 }} >
+											<Text style={styles.sport}>{item.teamName ? item.teamName : item.name}</Text>
+										</View>
+										<View style={{ flex: 1 }} />
+									</View>
+								</TouchableHighlight>
 							)} />
 					</View>
 
@@ -109,7 +140,10 @@ class Teams extends Component {
 							onPress={this.props.goBack}
 							style={{ backgroundColor: '#31da5b', borderRadius: 5, padding: 10 }}
 							underlayColor='#31da5b'>
-							<Text style={styles.sport}>Back</Text>
+							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+								<Icon color='white' name='angle-left' size={20} />
+								<Text style={styles.sport}> Back</Text>
+							</View>
 						</TouchableHighlight>
 					</View>
 				</View>
@@ -121,7 +155,6 @@ class Teams extends Component {
 
 const mapStateToProps = (state, props) => ({
 	sport: props.navigation.state.params.sport,
-	teams: state.sports[props.navigation.state.params.sport]
 });
 
 const mapDispatchToProps = dispatch => ({

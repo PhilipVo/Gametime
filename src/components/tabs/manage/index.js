@@ -9,9 +9,10 @@ import {
 	View
 } from 'react-native';
 import { connect } from 'react-redux';
-import FAIcon from 'react-native-vector-icons/dist/FontAwesome';
+import Swipeout from 'react-native-swipeout';
 import Icon from 'react-native-vector-icons/dist/SimpleLineIcons';
 
+import http from '../../../services/http.service';
 import session from '../../../services/session.service';
 
 const styles = StyleSheet.create({
@@ -20,6 +21,12 @@ const styles = StyleSheet.create({
 		color: 'white',
 		fontSize: 20,
 		textAlign: 'center'
+	},
+	back: {
+		alignItems: 'center',
+		flex: 1,
+		height: 40,
+		marginVertical: 10
 	},
 	background: {
 		height: Dimensions.get('window').height,
@@ -32,37 +39,15 @@ const styles = StyleSheet.create({
 		fontSize: 40,
 		textAlign: 'center'
 	},
-	logout: {
-		alignSelf: 'center',
-		backgroundColor: 'transparent',
-		borderColor: 'white',
-		borderRadius: 5,
-		borderWidth: 0.5,
+	sport: {
 		color: 'white',
-		fontSize: 20,
-		padding: 5,
-		textAlign: 'center'
+		fontSize: 18,
+		paddingVertical: 10
 	},
-	row: {
-		alignItems: 'center',
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		marginBottom: 10
-	},
-	select: {
-		alignItems: 'center',
-		backgroundColor: 'rgba(49,218,91,0.4)',
-		borderRadius: 5,
-		flex: 1,
-		flexDirection: 'row',
-		height: 40,
-		justifyContent: 'space-between'
-	},
-	title: {
-		backgroundColor: 'transparent',
-		color: 'white',
-		fontSize: 16,
-		fontWeight: 'bold'
+	swipe: {
+		borderBottomColor: 'white',
+		borderBottomWidth: 0.5,
+		marginVertical: 7,
 	}
 });
 
@@ -71,30 +56,29 @@ class Manage extends Component {
 		tabBarIcon: ({ tintColor }) => <Icon color={tintColor} name='settings' size={30} />
 	};
 
-	componentWillMount = () => {
-		this.setState({
-			data: [
-				{ sport: 'football' },
-				{ sport: 'basketball' },
-				{ sport: 'mma' },
-				{ sport: 'soccer' },
-				{ sport: 'baseball' },
-				{ sport: 'mma' },
-				{ sport: 'soccer' },
-				{ sport: 'baseball' },
-			]
-		});
+	constructor(props) {
+		super(props);
+		this.state = { data: [] };
+	}
+
+	componentDidMount() {
+		http.get('/api/teams/get-followed-teams')
+			.then(data => this.setState({ data: data }))
+			.catch(error => console.log(error));
+	}
+
+	removeTeam = (item, index) => {
+		http.delete('/api/teams', JSON.stringify({
+			sport: item.teamSport,
+			team: item.teamName
+		})).then(() => {
+			const data = this.state.data.slice();
+			data.splice(index, 1);
+			this.setState({ data: data });
+		}).catch(error => console.log(error));
 	}
 
 	render() {
-		let sportsCount = 0;
-		let teamsCount = 0;
-
-		Object.values(this.props.sports).forEach(sport => {
-			if (sport.length > 0) sportsCount += 1;
-			teamsCount += sport.length;
-		});
-
 		return (
 			<View style={{ flex: 1, padding: 20 }}>
 				<Image
@@ -113,29 +97,39 @@ class Manage extends Component {
 					<Text style={styles.account}>Manage teams</Text>
 				</View>
 
-				{/* Body */}
-				<View style={{ flex: 9 }}>
-					<FlatList
-						data={this.state.data}
-						keyExtractor={(item, index) => `${index}`}
-						renderItem={({ item }) => (
-							<Text>
-								placeholder
-						</Text>
-						)}
-						style={{ flex: 9 }} />
-				</View>
+				<View style={{ flex: 10 }}>
+					<View style={{ flex: 9 }}>
+						<FlatList
+							data={this.state.data}
+							keyExtractor={(item, index) => `${index}`}
+							renderItem={({ item, index }) => (
+								<Swipeout
+									backgroundColor='transparent'
+									right={[{
+										component: <Icon style={{ alignSelf: 'center' }} color='white' name='trash' size={30} />,
+										onPress: () => this.removeTeam(item, index),
+										type: 'delete'
+									}]}
+									style={styles.swipe}>
+									<Text style={styles.sport}>{item.teamName}</Text>
+								</Swipeout>
+							)} />
+					</View>
 
-				{/* Logout */}
-				<View style={{ flex: 1 }}>
-					<Text
-						onPress={() => {
-							session.logout();
-							this.props.setMode(2);
-						}}
-						style={styles.logout}>
-						Logout
-						</Text>
+					<View style={styles.back}>
+						{/* Logout */}
+						<TouchableHighlight
+							onPress={() => {
+								session.logout();
+								this.props.setMode(2);
+							}}
+							style={{ backgroundColor: '#31da5b', borderRadius: 5, padding: 10 }}
+							underlayColor='#31da5b'>
+							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+								<Text style={{ color: 'white' }}>Logout</Text>
+							</View>
+						</TouchableHighlight>
+					</View>
 				</View>
 
 			</View >
@@ -143,9 +137,7 @@ class Manage extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
-	sports: state.sports
-});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
 	setMode: mode => { dispatch({ type: 'SET_MODE', mode: mode }); }

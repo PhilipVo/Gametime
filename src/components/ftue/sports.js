@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		height: 40,
 		justifyContent: 'flex-end',
-		marginVertical: 10
+		marginVertical: 7
 	},
 	gametime: {
 		backgroundColor: 'transparent',
@@ -68,15 +68,10 @@ class Sports extends Component {
 						{/* Baseball */}
 						<TouchableHighlight
 							onPress={() => this.props.ftueTeams('baseball')}
-							style={{ height: 40, marginVertical: 10 }}
+							style={{ height: 40, marginVertical: 7 }}
 							underlayColor='transparent'>
 							<View style={styles.select}>
-								<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-									{
-										this.props.sports.baseball.length > 0 &&
-										<Icon color='white' name='check' size={20} />
-									}
-								</View>
+								<View style={{ flex: 1 }} />
 								<View style={{ flex: 2 }} >
 									<Text style={styles.sport}>Baseball</Text>
 								</View>
@@ -87,15 +82,10 @@ class Sports extends Component {
 						{/* Basketball */}
 						<TouchableHighlight
 							onPress={() => this.props.ftueTeams('basketball')}
-							style={{ height: 40, marginVertical: 10 }}
+							style={{ height: 40, marginVertical: 7 }}
 							underlayColor='transparent'>
 							<View style={styles.select}>
-								<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-									{
-										this.props.sports.basketball.length > 0 &&
-										<Icon color='white' name='check' size={20} />
-									}
-								</View>
+								<View style={{ flex: 1 }} />
 								<View style={{ flex: 2 }} >
 									<Text style={styles.sport}>Basketball</Text>
 								</View>
@@ -106,17 +96,26 @@ class Sports extends Component {
 						{/* Football */}
 						<TouchableHighlight
 							onPress={() => this.props.ftueTeams('football')}
-							style={{ height: 40, marginVertical: 10 }}
+							style={{ height: 40, marginVertical: 7 }}
 							underlayColor='transparent'>
 							<View style={styles.select}>
-								<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-									{
-										this.props.sports.football.length > 0 &&
-										<Icon color='white' name='check' size={20} />
-									}
-								</View>
+								<View style={{ flex: 1 }} />
 								<View style={{ flex: 2 }} >
 									<Text style={styles.sport}>Football</Text>
+								</View>
+								<View style={{ flex: 1 }} />
+							</View>
+						</TouchableHighlight>
+
+						{/* Golf */}
+						<TouchableHighlight
+							onPress={() => this.props.ftueTeams('golf')}
+							style={{ height: 40, marginVertical: 7 }}
+							underlayColor='transparent'>
+							<View style={styles.select}>
+								<View style={{ flex: 1 }} />
+								<View style={{ flex: 2 }} >
+									<Text style={styles.sport}>Golf</Text>
 								</View>
 								<View style={{ flex: 1 }} />
 							</View>
@@ -125,15 +124,10 @@ class Sports extends Component {
 						{/* Hockey */}
 						<TouchableHighlight
 							onPress={() => this.props.ftueTeams('hockey')}
-							style={{ height: 40, marginVertical: 10 }}
+							style={{ height: 40, marginVertical: 7 }}
 							underlayColor='transparent'>
 							<View style={styles.select}>
-								<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-									{
-										this.props.sports.hockey.length > 0 &&
-										<Icon color='white' name='check' size={20} />
-									}
-								</View>
+								<View style={{ flex: 1 }} />
 								<View style={{ flex: 2 }} >
 									<Text style={styles.sport}>Hockey</Text>
 								</View>
@@ -144,15 +138,10 @@ class Sports extends Component {
 						{/* MMA */}
 						<TouchableHighlight
 							onPress={() => this.props.ftueTeams('mma')}
-							style={{ height: 40, marginVertical: 10 }}
+							style={{ height: 40, marginVertical: 7 }}
 							underlayColor='transparent'>
 							<View style={styles.select}>
-								<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-									{
-										this.props.sports.mma.length > 0 &&
-										<Icon color='white' name='check' size={20} />
-									}
-								</View>
+								<View style={{ flex: 1 }} />
 								<View style={{ flex: 2 }} >
 									<Text style={styles.sport}>MMA</Text>
 								</View>
@@ -163,15 +152,10 @@ class Sports extends Component {
 						{/* Nascar */}
 						<TouchableHighlight
 							onPress={() => this.props.ftueTeams('nascar')}
-							style={{ height: 40, marginVertical: 10 }}
+							style={{ height: 40, marginVertical: 7 }}
 							underlayColor='transparent'>
 							<View style={styles.select}>
-								<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-									{
-										this.props.sports.mma.length > 0 &&
-										<Icon color='white' name='check' size={20} />
-									}
-								</View>
+								<View style={{ flex: 1 }} />
 								<View style={{ flex: 2 }} >
 									<Text style={styles.sport}>NASCAR</Text>
 								</View>
@@ -182,15 +166,10 @@ class Sports extends Component {
 						{/* Soccer */}
 						<TouchableHighlight
 							onPress={() => this.props.ftueTeams('soccer')}
-							style={{ height: 40, marginVertical: 10 }}
+							style={{ height: 40, marginVertical: 7 }}
 							underlayColor='transparent'>
 							<View style={styles.select}>
-								<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-									{
-										this.props.sports.soccer.length > 0 &&
-										<Icon color='white' name='check' size={20} />
-									}
-								</View>
+								<View style={{ flex: 1 }} />
 								<View style={{ flex: 2 }} >
 									<Text style={styles.sport}>Soccer</Text>
 								</View>
@@ -219,7 +198,6 @@ class Sports extends Component {
 
 const mapStateToProps = state => ({
 	mode: state.mode,
-	sports: state.sports
 });
 
 const mapDispatchToProps = dispatch => ({

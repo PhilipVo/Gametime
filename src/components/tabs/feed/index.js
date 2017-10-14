@@ -40,12 +40,4 @@ const images = {
 	soccer: require('../../../../assets/images/soccer.png')
 };
 
-const mapStateToProps = state => ({
-	mode: state.session
-});
-
-const mapDispatchToProps = dispatch => ({
-	setMode: mode => { dispatch({ type: 'SET_MODE', mode: mode }); }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Feed);
+export default connect()(Feed);
