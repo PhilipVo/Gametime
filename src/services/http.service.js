@@ -2,7 +2,8 @@ import { AsyncStorage } from 'react-native';
 
 class HttpService {
 	constructor() {
-		this.ip = 'http://54.241.143.173';
+		// this.ip = 'http://54.241.143.173';
+		this.ip = 'http://192.168.1.118:5000';
 	}
 
 	handleResponse(response) {
@@ -24,12 +25,12 @@ class HttpService {
 	//                HTTP METHODS
 	/////////////////////////////////////////////////
 	delete(url) {
-		return AsyncStorage.getItem('token')
-			.then(token => {
+		return AsyncStorage.getItem('gametimeToken')
+			.then(gametimeToken => {
 				return fetch(`${this.ip}${url}`, {
 					method: 'DELETE',
 					headers: {
-						'Authorization': `Bearer ${token}`
+						'Authorization': `Bearer ${gametimeToken}`
 					}
 				});
 			}).then(response => this.handleResponse(response))
@@ -37,12 +38,12 @@ class HttpService {
 	}
 
 	get(url) {
-		return AsyncStorage.getItem('token')
-			.then(token => {
+		return AsyncStorage.getItem('gametimeToken')
+			.then(gametimeToken => {
 				return fetch(`${this.ip}${url}`, {
 					method: 'GET',
 					headers: {
-						'Authorization': `Bearer ${token}`
+						'Authorization': `Bearer ${gametimeToken}`
 					}
 				});
 			}).then(response => this.handleResponse(response))
@@ -50,12 +51,12 @@ class HttpService {
 	}
 
 	post(url, body) {
-		return AsyncStorage.getItem('token')
-			.then(token => {
+		return AsyncStorage.getItem('gametimeToken')
+			.then(gametimeToken => {
 				return fetch(`${this.ip}${url}`, {
 					method: 'POST',
 					headers: {
-						'Authorization': `Bearer ${token}`,
+						'Authorization': `Bearer ${gametimeToken}`,
 						'Content-Type': 'application/json'
 					},
 					body: body
@@ -65,12 +66,12 @@ class HttpService {
 	}
 
 	put(url, body) {
-		return AsyncStorage.getItem('token')
-			.then(token => {
+		return AsyncStorage.getItem('gametimeToken')
+			.then(gametimeToken => {
 				return fetch(`${this.ip}${url}`, {
 					method: 'PUT',
 					headers: {
-						'Authorization': `Bearer ${token}`,
+						'Authorization': `Bearer ${gametimeToken}`,
 						'Content-Type': 'application/json'
 					},
 					body: body

@@ -1,6 +1,5 @@
 // const base64 = require('base-64');
 import { AsyncStorage } from 'react-native';
-// import { LoginManager } from 'react-native-fbsdk';
 
 import http from './http.service';
 // import notification from './notification.service';
@@ -11,30 +10,30 @@ class SessionService {
 	}
 
 	facebookLogin(data) {
-		return http.post('/facebook-login', JSON.stringify(data))
-			.then(token => AsyncStorage.setItem('token', token))
-			.then(() => AsyncStorage.getItem('token'))
-			.then(token => {
-				this.setSession(token);
-				this.isFacebookUser = true;
+		return http.post('/users/facebook-login', JSON.stringify(data))
+			.then(data => {
+				return AsyncStorage.setItem('gametimeToken', data.gametimeToken)
+					.then(() => AsyncStorage.getItem('gametimeToken'))
+					.then(gametimeToken => {
+						this.setSession(gametimeToken);
+						this.isFacebookUser = true;
+						return Promise.resolve(data.isNew);
+					}).catch(error => Promise.reject(error));
 			}).catch(error => Promise.reject(error));
 	}
 
 	login(data) {
-		return http.post('/login', JSON.stringify(data))
-			.then(token => {
-				console.log('token:', token)
-				return AsyncStorage.setItem('token', token)
-			})
-			.then(() => AsyncStorage.getItem('token'))
-			.then(token => this.setSession(token))
+		return http.post('/users/login', JSON.stringify(data))
+			.then(gametimeToken => AsyncStorage.setItem('gametimeToken', gametimeToken))
+			.then(() => AsyncStorage.getItem('gametimeToken'))
+			.then(gametimeToken => this.setSession(gametimeToken))
 			.catch(error => Promise.reject(error));
 	}
 
 	logout() {
 		// return http.put('/api/clear-device-token')
 		//   .then(() =>
-		AsyncStorage.removeItem('token')
+		AsyncStorage.removeItem('gametimeToken')
 			.then(() => {
 				if (this.isFacebookUser) LoginManager.logOut();
 				this.isFacebookUser = false;
@@ -42,18 +41,18 @@ class SessionService {
 	}
 
 	register(data) {
-		return http.post('/register', JSON.stringify(data))
-			.then(token => AsyncStorage.setItem('token', token))
-			.then(() => AsyncStorage.getItem('token'))
-			.then(token => this.setSession(token))
+		return http.post('/users/register', JSON.stringify(data))
+			.then(gametimeToken => AsyncStorage.setItem('gametimeToken', gametimeToken))
+			.then(() => AsyncStorage.getItem('gametimeToken'))
+			.then(gametimeToken => this.setSession(gametimeToken))
 			.catch(error => Promise.reject(error));
 	}
 
-	setSession(token) {
+	setSession(gametimeToken) {
 		return new Promise((resolve, reject) => {
 			try {
 				// Set user:
-				// payload = JSON.parse(base64.decode(token.split('.')[1].replace('-', '+').replace('_', '/')));
+				// payload = JSON.parse(base64.decode(gametimeToken.split('.')[1].replace('-', '+').replace('_', '/')));
 				// this.id = payload.id;
 
 				// Update deviceToken:

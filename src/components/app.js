@@ -21,10 +21,10 @@ const styles = StyleSheet.create({
 
 class App extends Component {
 	componentDidMount() {
-		AsyncStorage.getItem('token')
-			.then(token => {
-				if (token) {
-					session.setSession(token)
+		AsyncStorage.getItem('gametimeToken')
+			.then(gametimeToken => {
+				if (gametimeToken) {
+					session.setSession(gametimeToken)
 						.then(() => this.props.setMode(1))
 						.catch(() => { });
 				} else this.props.setMode(2);

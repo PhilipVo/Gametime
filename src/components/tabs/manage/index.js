@@ -62,20 +62,18 @@ class Manage extends Component {
 	}
 
 	componentDidMount() {
-		http.get('/api/teams/get-followed-teams')
+		http.get('/api/followings/get-followed-teams')
 			.then(data => this.setState({ data: data }))
 			.catch(error => console.log(error));
 	}
 
 	removeTeam = (item, index) => {
-		http.delete('/api/teams', JSON.stringify({
-			sport: item.teamSport,
-			team: item.teamName
-		})).then(() => {
-			const data = this.state.data.slice();
-			data.splice(index, 1);
-			this.setState({ data: data });
-		}).catch(error => console.log(error));
+		http.delete(`/api/followings/${item.sport}/${item.team}`)
+			.then(() => {
+				const data = this.state.data.slice();
+				data.splice(index, 1);
+				this.setState({ data: data });
+			}).catch(error => console.log(error));
 	}
 
 	render() {

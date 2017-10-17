@@ -54,38 +54,34 @@ class Teams extends Component {
 	}
 
 	componentDidMount() {
-		const followed = http.get(`/api/teams/get-followed-teams-for-sport/${this.props.sport}`)
+		const followed = http.get(`/api/followings/get-followed-teams-for-sport/${this.props.sport}`)
 			.catch(error => { throw error });
 
 		const unfollowed = http.get(`/api/teams/get-unfollowed-teams-for-sport/${this.props.sport}`)
 			.catch(error => { throw error });
 
 		Promise.all([followed, unfollowed])
-			.then(data => {
-				console.log(data)
-				this.setState({ data: data[0].concat(data[1]) });
-			}).catch(error => console.log(error))
+			.then(data => this.setState({ data: data[0].concat(data[1]) }))
+			.catch(error => console.log(error))
 	}
 
-	toggleTeam = (item, index) => {
-		if (item.name) http.post('/api/teams', JSON.stringify({
+	toggleFollowing = (item, index) => {
+		if (item._team) http.post('/api/followings', JSON.stringify({
 			sport: this.props.sport,
-			team: item.name
+			team: item._team
 		})).then(() => {
 			const data = this.state.data.slice();
-			data[index].teamName = item.name;
-			delete data[index].name;
+			data[index].team = item._team;
+			delete data[index]._team;
 			this.setState({ data: data });
 		}).catch(error => console.log(error));
-		else if (item.teamName) http.delete('/api/teams', JSON.stringify({
-			sport: this.props.sport,
-			team: item.teamName
-		})).then(() => {
-			const data = this.state.data.slice();
-			data[index].name = item.teamName;
-			delete data[index].teamName;
-			this.setState({ data: data });
-		}).catch(error => console.log(error));
+		else if (item.team) http.delete(`/api/followings/${this.props.sport}/${item.team}`)
+			.then(() => {
+				const data = this.state.data.slice();
+				data[index]._team = item.team;
+				delete data[index].team;
+				this.setState({ data: data });
+			}).catch(error => console.log(error));
 	}
 
 	render() {
@@ -118,15 +114,15 @@ class Teams extends Component {
 							keyExtractor={(item, index) => `${index}`}
 							renderItem={({ item, index }) => (
 								<TouchableHighlight
-									onPress={() => this.toggleTeam(item, index)}
+									onPress={() => this.toggleFollowing(item, index)}
 									style={{ height: 40, marginVertical: 7 }}
 									underlayColor='transparent'>
 									<View style={styles.select}>
 										<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-											<Icon color='white' name={item.teamName ? 'check-square-o' : 'square-o'} size={20} />
+											<Icon color='white' name={item.team ? 'check-square-o' : 'square-o'} size={20} />
 										</View>
 										<View style={{ flex: 3 }} >
-											<Text style={styles.sport}>{item.teamName ? item.teamName : item.name}</Text>
+											<Text style={styles.sport}>{item.team ? item.team : item._team}</Text>
 										</View>
 										<View style={{ flex: 1 }} />
 									</View>

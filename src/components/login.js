@@ -11,6 +11,7 @@ import {
 	View
 } from 'react-native';
 import { connect } from 'react-redux';
+import { LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 
 import session from '../services/session.service';
 
@@ -119,8 +120,10 @@ class Login extends Component {
 					const infoRequest = new GraphRequest('/me', null, (error, result) => {
 						if (error) throw error.toString();
 						else return session.facebookLogin({ id: result.id })
-							.then(() => this.props.screenProps.login())
-							.catch(error => {
+							.then(isNew => {
+								if (isNew === true) this.props.setMode(3);
+								else this.props.setMode(1);
+							}).catch(error => {
 								this.setState({
 									disabled: false,
 									error: typeof error === 'string' ? error : 'Oops, something went wrong.',
@@ -262,8 +265,9 @@ class Login extends Component {
 									<View style={styles.orDivider} />
 								</View>
 
+								{/* Facebook */}
 								<TouchableHighlight
-									onPress={() => { }}
+									onPress={this.facebookLogin}
 									style={styles.facebook}
 									underlayColor='#3b5998'>
 									<Text style={styles.buttonText}>Continue with Facebook</Text>
