@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-	Dimensions,
-	FlatList,
-	ImageBackground,
-	StyleSheet,
-	Text,
-	View
-} from 'react-native';
+import { FlatList, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/SimpleLineIcons';
 import moment from 'moment';
@@ -14,11 +7,6 @@ import moment from 'moment';
 import http from '../../../services/http.service';
 
 const styles = StyleSheet.create({
-	background: {
-		height: Dimensions.get('window').height,
-		position: 'absolute',
-		width: Dimensions.get('window').width
-	},
 	details: {
 		backgroundColor: 'rgba(0,0,0,0.3)',
 		color: 'white',
@@ -51,10 +39,7 @@ class Feed extends Component {
 
 	render() {
 		return (
-			<View style={{ flex: 1, paddingTop: 20 }}>
-				<Image
-					source={require('../../../../assets/images/background0.png')}
-					style={styles.background} />
+			<View style={{ backgroundColor: 'black', flex: 1, paddingTop: 20 }}>
 
 				<FlatList
 					data={this.state.data}

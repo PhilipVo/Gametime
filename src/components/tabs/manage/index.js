@@ -89,7 +89,6 @@ class Manage extends Component {
 					source={require('../../../../assets/images/background2.png')}
 					style={styles.background} />
 
-
 				{/* Header */}
 				<View style={{ flex: 2 }}>
 					<View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
