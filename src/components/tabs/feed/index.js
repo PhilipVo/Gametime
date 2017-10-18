@@ -1,11 +1,30 @@
 import React, { Component } from 'react';
-import { FlatList, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import {
+	Dimensions,
+	FlatList,
+	ImageBackground,
+	StyleSheet,
+	Text,
+	View
+} from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/SimpleLineIcons';
+import moment from 'moment';
 
 import http from '../../../services/http.service';
 
 const styles = StyleSheet.create({
+	background: {
+		height: Dimensions.get('window').height,
+		position: 'absolute',
+		width: Dimensions.get('window').width
+	},
+	details: {
+		backgroundColor: 'rgba(0,0,0,0.3)',
+		color: 'white',
+		fontSize: 12,
+		textAlign: 'center'
+	},
 	row: {
 		flexDirection: 'row',
 		height: 120,
@@ -32,31 +51,39 @@ class Feed extends Component {
 
 	render() {
 		return (
-			<FlatList
-				data={this.state.data}
-				keyExtractor={(item, index) => `${index}`}
-				renderItem={({ item }) => (
-					<ImageBackground source={images[item.sport]} style={styles.row}>
-						<View style={{ flex: 1 }}>
-							<Text style={{ textAlign: 'center' }}>
-								{
-									item.home + (item.away && ' vs ' + item.away)
-								}
-							</Text>
-						</View>
+			<View style={{ flex: 1, paddingTop: 20 }}>
+				<Image
+					source={require('../../../../assets/images/background0.png')}
+					style={styles.background} />
 
-						{/* Home Team Logo */}
-						<View style={{ flex: 1 }}>
+				<FlatList
+					data={this.state.data}
+					keyExtractor={(item, index) => `${index}`}
+					renderItem={({ item }) => (
+						<ImageBackground source={images[item.sport]} style={styles.row}>
+							<View style={{ flex: 2 }}>
+								<Text style={styles.details}>
+									{
+										item.home +
+										(item.away ? ` vs  ${item.away}\n` : '\n') +
+										moment(item.gametime).calendar() +
+										(item.network ? ` on ${item.network}` : '')
+									}
+								</Text>
+							</View>
 
-						</View>
+							{/* Home Team Logo */}
+							<View style={{ flex: 1 }}>
 
-						{/* Away Team Logo */}
-						<View style={{ flex: 1 }}>
+							</View>
 
-						</View>
-					</ImageBackground>
-				)}
-				style={{ flex: 1 }} />
+							{/* Away Team Logo */}
+							<View style={{ flex: 1 }}>
+
+							</View>
+						</ImageBackground>
+					)} />
+			</View>
 		);
 	}
 }

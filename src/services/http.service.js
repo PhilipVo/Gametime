@@ -3,18 +3,17 @@ import { AsyncStorage } from 'react-native';
 class HttpService {
 	constructor() {
 		// this.ip = 'http://54.241.143.173';
-		this.ip = 'http://10.117.125.206:5000';
+		this.ip = 'http://172.31.99.97:5000';
 	}
 
 	handleResponse(response) {
 		// Reject on error:
-		if (response.status >= 300)
-			return response.json()
-				.then(data => Promise.reject(data.message))
-				.catch(error => {
-					if (typeof error === 'string') return Promise.reject(error);
-					else return Promise.reject(response);
-				});
+		if (response.status >= 300) return response.json()
+			.then(data => Promise.reject(data.message))
+			.catch(error => {
+				if (typeof error === 'string') return Promise.reject(error);
+				else return Promise.reject(response);
+			});
 		// Resolve on success:
 		else return response.json()
 			.then(data => Promise.resolve(data))
