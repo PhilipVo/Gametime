@@ -2,7 +2,7 @@
 import { AsyncStorage } from 'react-native';
 
 import http from './http.service';
-// import notification from './notification.service';
+import notification from './notification.service';
 
 class SessionService {
 	constructor() {
@@ -10,7 +10,11 @@ class SessionService {
 	}
 
 	facebookLogin(data) {
-		return http.post('/users/facebook-login', JSON.stringify(data))
+		return AsyncStorage.getItem('deviceToken')
+			.then(deviceToken => http.post('/users/facebook-login', JSON.stringify({
+				...data,
+				deviceToken: deviceToken
+			})))
 			.then(data => {
 				return AsyncStorage.setItem('gametimeToken', data.gametimeToken)
 					.then(() => AsyncStorage.getItem('gametimeToken'))
@@ -23,7 +27,11 @@ class SessionService {
 	}
 
 	login(data) {
-		return http.post('/users/login', JSON.stringify(data))
+		return AsyncStorage.getItem('deviceToken')
+			.then(deviceToken => http.post('/users/login', JSON.stringify({
+				...data,
+				deviceToken: deviceToken
+			})))
 			.then(gametimeToken => AsyncStorage.setItem('gametimeToken', gametimeToken))
 			.then(() => AsyncStorage.getItem('gametimeToken'))
 			.then(gametimeToken => this.setSession(gametimeToken))
@@ -31,9 +39,8 @@ class SessionService {
 	}
 
 	logout() {
-		// return http.put('/api/clear-device-token')
-		//   .then(() =>
-		AsyncStorage.removeItem('gametimeToken')
+		return http.put('/api/users/logout')
+			.then(() => AsyncStorage.removeItem('gametimeToken'))
 			.then(() => {
 				if (this.isFacebookUser) LoginManager.logOut();
 				this.isFacebookUser = false;
@@ -56,7 +63,7 @@ class SessionService {
 				// this.id = payload.id;
 
 				// Update deviceToken:
-				// notification.updateDeviceToken();
+				notification.setNotifications();
 
 				return resolve();
 			} catch (error) {

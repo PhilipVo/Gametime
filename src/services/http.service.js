@@ -3,7 +3,7 @@ import { AsyncStorage } from 'react-native';
 class HttpService {
 	constructor() {
 		// this.ip = 'http://54.241.143.173';
-		this.ip = 'http://192.168.1.118:5000';
+		this.ip = 'http://10.117.125.206:5000';
 	}
 
 	handleResponse(response) {

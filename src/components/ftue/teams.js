@@ -100,7 +100,7 @@ class Teams extends Component {
 						{
 							this.state.data.length === 1 ?
 								`Select below to follow ${this.props.sport}` :
-								`Let's select your ${this.props.sport} teams`
+								`Select ${this.props.sport} teams to follow`
 						}
 					</Text>
 				</View>
@@ -138,7 +138,7 @@ class Teams extends Component {
 							underlayColor='#31da5b'>
 							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 								<Icon color='white' name='angle-left' size={20} />
-								<Text style={styles.sport}> Back</Text>
+								<Text style={styles.sport}> Save and go back</Text>
 							</View>
 						</TouchableHighlight>
 					</View>

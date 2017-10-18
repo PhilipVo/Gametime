@@ -11,6 +11,7 @@ import {
 import { connect } from 'react-redux';
 import Swipeout from 'react-native-swipeout';
 import Icon from 'react-native-vector-icons/dist/SimpleLineIcons';
+import FAIcon from 'react-native-vector-icons/dist/FontAwesome';
 
 import http from '../../../services/http.service';
 import session from '../../../services/session.service';
@@ -38,6 +39,11 @@ const styles = StyleSheet.create({
 		color: 'white',
 		fontSize: 40,
 		textAlign: 'center'
+	},
+	row: {
+		alignItems: 'center',
+		flexDirection: 'row',
+		justifyContent: 'space-between'
 	},
 	sport: {
 		color: 'white',
@@ -67,7 +73,7 @@ class Manage extends Component {
 			.catch(error => console.log(error));
 	}
 
-	removeTeam = (item, index) => {
+	unfollow = (item, index) => {
 		http.delete(`/api/followings/${item.sport}/${item.team}`)
 			.then(() => {
 				const data = this.state.data.slice();
@@ -105,11 +111,14 @@ class Manage extends Component {
 									backgroundColor='transparent'
 									right={[{
 										component: <Icon style={{ alignSelf: 'center' }} color='white' name='trash' size={30} />,
-										onPress: () => this.removeTeam(item, index),
+										onPress: () => this.unfollow(item, index),
 										type: 'delete'
 									}]}
 									style={styles.swipe}>
-									<Text style={styles.sport}>{item.teamName}</Text>
+									<View style={styles.row}>
+										<Text style={styles.sport}>{item.team}</Text>
+										<FAIcon color='white' name='angle-right' size={30} style={{ marginRight: 20 }} />
+									</View>
 								</Swipeout>
 							)} />
 					</View>
@@ -123,9 +132,7 @@ class Manage extends Component {
 							}}
 							style={{ backgroundColor: '#31da5b', borderRadius: 5, padding: 10 }}
 							underlayColor='#31da5b'>
-							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-								<Text style={{ color: 'white' }}>Logout</Text>
-							</View>
+							<Text style={{ color: 'white' }}>Logout</Text>
 						</TouchableHighlight>
 					</View>
 				</View>
