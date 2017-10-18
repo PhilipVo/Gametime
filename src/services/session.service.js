@@ -10,11 +10,7 @@ class SessionService {
 	}
 
 	facebookLogin(data) {
-		return AsyncStorage.getItem('deviceToken')
-			.then(deviceToken => http.post('/users/facebook-login', JSON.stringify({
-				...data,
-				deviceToken: deviceToken
-			})))
+		return http.post('/users/facebook-login', JSON.stringify(data))
 			.then(data => {
 				return AsyncStorage.setItem('gametimeToken', data.gametimeToken)
 					.then(() => AsyncStorage.getItem('gametimeToken'))
@@ -27,11 +23,7 @@ class SessionService {
 	}
 
 	login(data) {
-		return AsyncStorage.getItem('deviceToken')
-			.then(deviceToken => http.post('/users/login', JSON.stringify({
-				...data,
-				deviceToken: deviceToken
-			})))
+		return http.post('/users/login', JSON.stringify(data))
 			.then(gametimeToken => AsyncStorage.setItem('gametimeToken', gametimeToken))
 			.then(() => AsyncStorage.getItem('gametimeToken'))
 			.then(gametimeToken => this.setSession(gametimeToken))
@@ -63,7 +55,7 @@ class SessionService {
 				// this.id = payload.id;
 
 				// Update deviceToken:
-				notification.setNotifications();
+				notification.updateDeviceToken();
 
 				return resolve();
 			} catch (error) {
