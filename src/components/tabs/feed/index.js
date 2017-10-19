@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { FlatList, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import {
+	FlatList,
+	ImageBackground,
+	RefreshControl,
+	StyleSheet,
+	Text,
+	View
+} from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/SimpleLineIcons';
 import moment from 'moment';
@@ -27,15 +34,26 @@ class Feed extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { data: [] };
+		this.state = {
+			data: [],
+			refreshing: false
+		};
 	}
 
 	componentDidMount = () => {
 		http.get('/api/games/get-my-games')
 			.then(data => this.setState({ data: data }))
-			.catch(error => console.log(error))
+			.catch(error => console.log(error));
 	}
 
+	onRefresh = () => {
+		if (!this.state.refreshing) {
+			this.setState({ refreshing: true });
+			http.get('/api/games/get-my-games')
+				.then(data => this.setState({ data: data, refreshing: false }))
+				.catch(() => { });
+		}
+	}
 
 	render() {
 		return (
@@ -44,6 +62,13 @@ class Feed extends Component {
 				<FlatList
 					data={this.state.data}
 					keyExtractor={(item, index) => `${index}`}
+					refreshControl={
+						<RefreshControl
+							enabled={!this.state.refreshing}
+							onRefresh={this.onRefresh}
+							refreshing={this.state.refreshing}
+							size={RefreshControl.SIZE.SMALL} />
+					}
 					renderItem={({ item }) => (
 						<ImageBackground source={images[item.sport]} style={styles.row}>
 							<View style={{ flex: 2 }}>

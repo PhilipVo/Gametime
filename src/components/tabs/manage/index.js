@@ -3,6 +3,7 @@ import {
 	Dimensions,
 	FlatList,
 	Image,
+	RefreshControl,
 	StyleSheet,
 	Text,
 	TouchableHighlight,
@@ -64,13 +65,25 @@ class Manage extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { data: [] };
+		this.state = {
+			data: [],
+			refreshing: false
+		};
 	}
 
 	componentDidMount() {
 		http.get('/api/followings/get-followed-teams')
 			.then(data => this.setState({ data: data }))
 			.catch(error => console.log(error));
+	}
+
+	onRefresh = () => {
+		if (!this.state.refreshing) {
+			this.setState({ refreshing: true });
+			http.get('/api/followings/get-followed-teams')
+				.then(data => this.setState({ data: data, refreshing: false }))
+				.catch(() => { });
+		}
 	}
 
 	unfollow = (item, index) => {
@@ -105,6 +118,13 @@ class Manage extends Component {
 						<FlatList
 							data={this.state.data}
 							keyExtractor={(item, index) => `${index}`}
+							refreshControl={
+								<RefreshControl
+									enabled={!this.state.refreshing}
+									onRefresh={this.onRefresh}
+									refreshing={this.state.refreshing}
+									size={RefreshControl.SIZE.SMALL} />
+							}
 							renderItem={({ item, index }) => (
 								<Swipeout
 									backgroundColor='transparent'
