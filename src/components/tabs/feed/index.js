@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
 	FlatList,
+	Image,
 	ImageBackground,
 	RefreshControl,
 	StyleSheet,
@@ -15,14 +16,31 @@ import http from '../../../services/http.service';
 
 const styles = StyleSheet.create({
 	details: {
-		backgroundColor: 'rgba(0,0,0,0.3)',
+		backgroundColor: 'transparent',
 		color: 'white',
 		fontSize: 12,
-		textAlign: 'center'
+		fontWeight: 'bold',
+		textAlign: 'center',
+		textShadowColor: 'black',
+		textShadowOffset: { width: 1, height: 1 }
+	},
+	logo: {
+		alignItems: 'center',
+		backgroundColor: 'white',
+		borderRadius: 35,
+		justifyContent: 'center',
+		height: 70,
+		width: 70
+	},
+	logos: {
+		alignItems: 'center',
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-between'
 	},
 	row: {
 		flexDirection: 'row',
-		height: 120,
+		height: 150,
 		marginBottom: 1
 	}
 });
@@ -70,8 +88,13 @@ class Feed extends Component {
 							size={RefreshControl.SIZE.SMALL} />
 					}
 					renderItem={({ item }) => (
-						<ImageBackground source={images[item.sport]} style={styles.row}>
-							<View style={{ flex: 2 }}>
+						<ImageBackground
+							source={{ uri: `${http.s3}/${item.sport}/${item.sport}.png` }}
+							style={styles.row}>
+							<View style={{ alignItems: 'center', flex: 1, justifyContent: 'space-around' }}>
+								<Image
+									source={{ uri: `${http.s3}/${item.sport}/${item.sport}_logo.png` }}
+									style={{ height: 50, resizeMode: 'contain', width: 50 }} />
 								<Text style={styles.details}>
 									{
 										item.home +
@@ -82,14 +105,21 @@ class Feed extends Component {
 								</Text>
 							</View>
 
-							{/* Home Team Logo */}
-							<View style={{ flex: 1 }}>
+							{/* Logos */}
+							<View style={styles.logos}>
+								{/* Home Team Logo */}
+								<View style={styles.logo}>
+									<Image
+										style={{ width: 60, height: 60 }}
+										source={{ uri: `${http.s3}/${item.sport}/${item.home.replace(/\s/g, '+')}.png` }} />
+								</View>
 
-							</View>
-
-							{/* Away Team Logo */}
-							<View style={{ flex: 1 }}>
-
+								{/* Away Team Logo */}
+								<View style={styles.logo}>
+									<Image
+										style={{ width: 60, height: 60 }}
+										source={{ uri: `${http.s3}/${item.sport}/${item.away.replace(/\s/g, '+')}.png` }} />
+								</View>
 							</View>
 						</ImageBackground>
 					)} />
@@ -97,15 +127,5 @@ class Feed extends Component {
 		);
 	}
 }
-
-const images = {
-	Baseball: require('../../../../assets/images/baseball.png'),
-	Basketball: require('../../../../assets/images/basketball.png'),
-	Football: require('../../../../assets/images/football.png'),
-	Hockey: require('../../../../assets/images/hockey.png'),
-	MMA: require('../../../../assets/images/mma.png'),
-	NASCAR: require('../../../../assets/images/nascar.png'),
-	Soccer: require('../../../../assets/images/soccer.png')
-};
 
 export default connect()(Feed);
