@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		flex: 1,
 		flexDirection: 'row',
-		justifyContent: 'space-between'
+		justifyContent: 'space-around'
 	},
 	row: {
 		flexDirection: 'row',
@@ -95,32 +95,54 @@ class Feed extends Component {
 								<Image
 									source={{ uri: `${http.s3}/${item.sport}/${item.sport}_logo.png` }}
 									style={{ height: 50, resizeMode: 'contain', width: 50 }} />
+
+								{
+									item.away && item.sport !== 'Soccer' &&
+									<Text style={styles.details}>
+										{
+											item.home +
+											(item.away ? ` vs  ${item.away}\n` : '\n')
+										}
+									</Text>
+								}
+
 								<Text style={styles.details}>
 									{
-										item.home +
-										(item.away ? ` vs  ${item.away}\n` : '\n') +
 										moment(item.gametime).calendar() +
 										(item.network ? ` on ${item.network}` : '')
 									}
 								</Text>
 							</View>
 
-							{/* Logos */}
-							<View style={styles.logos}>
-								{/* Home Team Logo */}
-								<View style={styles.logo}>
-									<Image
-										style={{ width: 60, height: 60 }}
-										source={{ uri: `${http.s3}/${item.sport}/${item.home.replace(/\s/g, '+')}.png` }} />
-								</View>
+							{
+								// Logos (only for Baseball, Basketball, Football, and Hockey):
+								item.away && item.sport !== 'Soccer' ?
+									<View style={styles.logos}>
+										{/* Home Team Logo */}
+										<View style={styles.logo}>
+											<Image
+												style={{ width: 60, height: 60 }}
+												source={{ uri: `${http.s3}/${item.sport}/${item.home.replace(/\s/g, '+')}.png` }} />
+										</View>
 
-								{/* Away Team Logo */}
-								<View style={styles.logo}>
-									<Image
-										style={{ width: 60, height: 60 }}
-										source={{ uri: `${http.s3}/${item.sport}/${item.away.replace(/\s/g, '+')}.png` }} />
-								</View>
-							</View>
+										{/* Away Team Logo */}
+										<View style={styles.logo}>
+											<Image
+												style={{ width: 60, height: 60 }}
+												source={{ uri: `${http.s3}/${item.sport}/${item.away.replace(/\s/g, '+')}.png` }} />
+										</View>
+									</View> :
+
+									// Else just display event name:
+									<View style={styles.logos}>
+										<Text style={[styles.details, { fontSize: 16 }]}>
+											{
+												item.home +
+												(item.away ? ` vs  ${item.away}\n` : '\n')
+											}
+										</Text>
+									</View>
+							}
 						</ImageBackground>
 					)} />
 			</View>
