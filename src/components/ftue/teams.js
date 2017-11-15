@@ -62,7 +62,7 @@ class Teams extends Component {
 
 		Promise.all([followed, unfollowed])
 			.then(data => this.setState({ data: data[0].concat(data[1]) }))
-			.catch(error => console.log(error))
+			.catch(() => { })
 	}
 
 	toggleFollowing = (item, index) => {
@@ -74,14 +74,14 @@ class Teams extends Component {
 			data[index].team = item._team;
 			delete data[index]._team;
 			this.setState({ data: data });
-		}).catch(error => console.log(error));
+		}).catch(() => { });
 		else if (item.team) http.delete(`/api/followings/${this.props.sport}/${item.team}`)
 			.then(() => {
 				const data = this.state.data.slice();
 				data[index]._team = item.team;
 				delete data[index].team;
 				this.setState({ data: data });
-			}).catch(error => console.log(error));
+			}).catch(() => { });
 	}
 
 	render() {

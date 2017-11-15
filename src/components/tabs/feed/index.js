@@ -61,7 +61,7 @@ class Feed extends Component {
 	componentDidMount = () => {
 		http.get('/api/games/get-my-games')
 			.then(data => this.setState({ data: data }))
-			.catch(error => console.log(error));
+			.catch(() => { });
 	}
 
 	onRefresh = () => {
@@ -101,7 +101,7 @@ class Feed extends Component {
 									<Text style={styles.details}>
 										{
 											item.home +
-											(item.away ? ` vs  ${item.away}\n` : '\n')
+											(item.away ? ` vs ${item.away}\n` : '\n')
 										}
 									</Text>
 								}

@@ -1,5 +1,6 @@
 // const base64 = require('base-64');
 import { AsyncStorage } from 'react-native';
+import { LoginManager } from 'react-native-fbsdk';
 
 import http from './http.service';
 import notification from './notification.service';
@@ -31,7 +32,7 @@ class SessionService {
 	}
 
 	logout() {
-		return http.put('/api/users/logout')
+		return http.get('/api/users/logout')
 			.then(() => AsyncStorage.removeItem('gametimeToken'))
 			.then(() => {
 				if (this.isFacebookUser) LoginManager.logOut();

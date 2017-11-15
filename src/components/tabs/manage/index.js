@@ -74,7 +74,7 @@ class Manage extends Component {
 	componentDidMount() {
 		http.get('/api/followings/get-followed-teams')
 			.then(data => this.setState({ data: data }))
-			.catch(error => console.log(error));
+			.catch(() => { });
 	}
 
 	onRefresh = () => {
@@ -92,7 +92,7 @@ class Manage extends Component {
 				const data = this.state.data.slice();
 				data.splice(index, 1);
 				this.setState({ data: data });
-			}).catch(error => console.log(error));
+			}).catch(() => { });
 	}
 
 	render() {
@@ -147,7 +147,7 @@ class Manage extends Component {
 						<TouchableHighlight
 							onPress={() => {
 								session.logout();
-								this.props.setMode(2);
+								this.props.logout();
 							}}
 							style={{ backgroundColor: '#31da5b', borderRadius: 5, padding: 10 }}
 							underlayColor='#31da5b'>
@@ -164,7 +164,10 @@ class Manage extends Component {
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-	setMode: mode => { dispatch({ type: 'SET_MODE', mode: mode }); }
+	logout: () => {
+		dispatch({ type: 'SET_MODE', mode: 2 });
+		dispatch({ type: 'TABS_FEED' });
+	}
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Manage);

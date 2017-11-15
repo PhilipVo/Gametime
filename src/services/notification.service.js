@@ -11,7 +11,6 @@ class NotificationService {
 		// Configure notifications:        
 		PushNotification.configure({
 			onNotification: notification => {
-				console.log('notification', notification);
 				subject.onNext(notification);
 			},
 			onRegister: device => AsyncStorage.setItem('deviceToken', device.token),

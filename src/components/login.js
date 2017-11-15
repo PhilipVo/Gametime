@@ -159,11 +159,9 @@ class Login extends Component {
 						});
 					});
 			} else {
-				console.log(this.user)
 				session.register(this.user)
 					.then(() => this.props.setMode(3))
 					.catch(error => {
-						console.log(error)
 						this.setState({
 							disabled: false,
 							error: typeof error === 'string' ? error : 'Oops, something went wrong.',
