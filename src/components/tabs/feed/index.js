@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+	Dimensions,
 	FlatList,
 	Image,
 	ImageBackground,
@@ -15,6 +16,17 @@ import moment from 'moment';
 import http from '../../../services/http.service';
 
 const styles = StyleSheet.create({
+	background: {
+		height: Dimensions.get('window').height,
+		padding: 20,
+		position: 'absolute',
+		width: Dimensions.get('window').width,
+	},
+	center: {
+		backgroundColor: 'transparent',
+		color: 'white',
+		textAlign: 'center'
+	},
 	details: {
 		backgroundColor: 'transparent',
 		color: 'white',
@@ -23,6 +35,18 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		textShadowColor: 'black',
 		textShadowOffset: { width: 1, height: 1 }
+	},
+	gametime: {
+		backgroundColor: 'transparent',
+		color: 'white',
+		fontSize: 40,
+		textAlign: 'center'
+	},
+	lets: {
+		backgroundColor: 'transparent',
+		color: 'white',
+		fontSize: 20,
+		textAlign: 'center'
 	},
 	logo: {
 		alignItems: 'center',
@@ -76,6 +100,30 @@ class Feed extends Component {
 	render() {
 		return (
 			<View style={{ backgroundColor: 'black', flex: 1, paddingTop: 20 }}>
+
+				{
+					this.state.data.length === 0 &&
+					<ImageBackground
+						source={require('../../../../assets/images/background0.png')}
+						style={styles.background}>
+						<View style={{ flex: 1 }}>
+							<View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
+								<Image
+									source={require('../../../../assets/images/gametime.png')}
+									style={{ height: 40, width: 40 }} />
+								<Text style={styles.gametime}> Gametime</Text>
+							</View>
+							<Text style={styles.lets}>
+								Looks like no one is playing today
+							</Text>
+						</View>
+						<View style={{ flex: 2, paddingHorizontal: 20 }}>
+							<Text style={styles.lets}>
+								Add more teams with the heart icon below to see more teams playing today.
+							</Text>
+						</View>
+					</ImageBackground>
+				}
 
 				<FlatList
 					data={this.state.data}
@@ -144,7 +192,9 @@ class Feed extends Component {
 									</View>
 							}
 						</ImageBackground>
-					)} />
+					)}
+					style={{ zIndex: 1 }} />
+
 			</View>
 		);
 	}
