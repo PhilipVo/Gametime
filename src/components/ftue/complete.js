@@ -32,16 +32,16 @@ class Complete extends Component {
 			}}>
 				<View style={{ flex: 1 }}>
 
-					{/* Gametime */}
+					{/* Buzzer */}
 					<View style={{ flex: 1, justifyContent: 'flex-end' }}>
-						<Text style={styles.gametime}>Gametime</Text>
+						<Text style={styles.gametime}>Buzzer</Text>
 						<Text style={styles.never}>Outstanding!</Text>
 					</View>
 
 					{/* Icon */}
 					<View style={{ alignItems: 'center', flex: 2, justifyContent: 'center' }}>
 						<Image
-							source={require('../../../assets/images/gametime.png')}
+							source={require('../../../assets/images/buzzer.png')}
 							style={{ height: 90, width: 90 }} />
 					</View>
 

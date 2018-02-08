@@ -38,7 +38,7 @@
   [self.window makeKeyAndVisible];
   return YES;
 }
-  
+
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {

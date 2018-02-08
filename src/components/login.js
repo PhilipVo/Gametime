@@ -153,6 +153,7 @@ class Login extends Component {
 				session.login(this.user)
 					.then(() => this.props.setMode(1))
 					.catch(error => {
+						console.log(error)
 						this.setState({
 							disabled: false,
 							error: typeof error === 'string' ? error : 'Oops, something went wrong.',
@@ -187,16 +188,16 @@ class Login extends Component {
 						behavior={'padding'}
 						style={{ flex: 1 }}>
 
-						{/* Gametime */}
+						{/* Buzzer */}
 						<View style={{ flex: 1, justifyContent: 'flex-end' }}>
-							<Text style={styles.gametime}>Gametime</Text>
+							<Text style={styles.gametime}>Buzzer</Text>
 							<Text style={styles.never}>Never miss your favorite team play</Text>
 						</View>
 
 						{/* Icon */}
 						<View style={{ alignItems: 'center', flex: 2, justifyContent: 'center' }}>
 							<Image
-								source={require('../../assets/images/gametime.png')}
+								source={require('../../assets/images/buzzer.png')}
 								style={{ height: 90, width: 90 }} />
 						</View>
 

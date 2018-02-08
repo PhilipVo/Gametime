@@ -54,9 +54,9 @@ class Sports extends Component {
 				<View style={{ flex: 2 }}>
 					<View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
 						<Image
-							source={require('../../../assets/images/gametime.png')}
+							source={require('../../../assets/images/buzzer.png')}
 							style={{ height: 40, width: 40 }} />
-						<Text style={styles.gametime}> Gametime</Text>
+						<Text style={styles.gametime}> Buzzer</Text>
 					</View>
 					<Text style={styles.lets}>Select the sports you follow</Text>
 				</View>
