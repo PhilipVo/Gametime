@@ -59,6 +59,7 @@
 		84C85BD5202C49C9007B7595 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84C85BCA202C49C8007B7595 /* Octicons.ttf */; };
 		84C85BD6202C49C9007B7595 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84C85BCB202C49C8007B7595 /* SimpleLineIcons.ttf */; };
 		84C85BD7202C49C9007B7595 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84C85BCC202C49C8007B7595 /* Zocial.ttf */; };
+		84C85BD9202D02EC007B7595 /* background0.png in Resources */ = {isa = PBXBuildFile; fileRef = 84C85BD8202D02EC007B7595 /* background0.png */; };
 		9133AE6993FE4C20A68E226A /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A8378D93B9C1429C954824A1 /* Octicons.ttf */; };
 		9B264DA9F0364474A17D2422 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 05E164064032429ABBA3DCCA /* FontAwesome.ttf */; };
 		A85237013F1C410D8E25AD03 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A03352000FC47FE88B81444 /* MaterialIcons.ttf */; };
@@ -421,6 +422,7 @@
 		84C85BCA202C49C8007B7595 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		84C85BCB202C49C8007B7595 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		84C85BCC202C49C8007B7595 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
+		84C85BD8202D02EC007B7595 /* background0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background0.png; path = ../assets/images/background0.png; sourceTree = "<group>"; };
 		9BF46EC63F2C4F6ABE89E86C /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		A8378D93B9C1429C954824A1 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
@@ -673,6 +675,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				84C85BD8202D02EC007B7595 /* background0.png */,
 				84C85BC1202C49C8007B7595 /* Fonts */,
 				13B07FAE1A68108700A75B9A /* Gametime */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -1269,6 +1272,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				84C85BD2202C49C8007B7595 /* Ionicons.ttf in Resources */,
 				84C85BCD202C49C8007B7595 /* Entypo.ttf in Resources */,
+				84C85BD9202D02EC007B7595 /* background0.png in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				84C85BD1202C49C8007B7595 /* Foundation.ttf in Resources */,
 				59371AE2F70A40788EABA919 /* Entypo.ttf in Resources */,
